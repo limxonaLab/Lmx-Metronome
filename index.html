@@ -3,7 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lmx Metronom v1.8</title>
+<title>Online Metronom – Ücretsiz Tempo ve Ritim Aracı | LMX</title>
+<meta name="description" content="Ücretsiz online metronom ile 30–300 BPM tempo ayarlayın. Farklı ölçüler, vuruş vurguları ve ritmik bölümler oluşturun, ritimlerinizi kaydedin.">
+<link rel="canonical" href="https://lmxmetro.pages.dev/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:site_name" content="LMX Metronom">
+<meta property="og:title" content="Online Metronom – Ücretsiz Tempo ve Ritim Aracı | LMX">
+<meta property="og:description" content="Temponu ayarla, ritmini oluştur ve kaydet. 30–300 BPM, farklı ölçüler ve özelleştirilebilir vuruşlarla ücretsiz online metronom.">
+<meta property="og:url" content="https://lmxmetro.pages.dev/">
 <script>
 (()=>{let theme;try{theme=localStorage.getItem('metronom-theme');}catch{}document.documentElement.dataset.theme=theme==='light'||theme==='dark'?theme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');})();
 </script>
@@ -205,7 +214,31 @@ body.help-open{overflow:hidden}
   <div class="preset-save"><input type="text" id="pname" maxlength="40" placeholder="Ritim adı" aria-label="Ritim adı"><button id="psave">Kaydet</button></div><p id="pmsg" class="section-note" role="status"></p><div id="preset-list"></div></section>
   </div></div>
  </div>
+<section class="card" aria-labelledby="about-metronome">
+  <h2 id="about-metronome" style="font-size:18px;margin:0 0 12px">
+    Online metronom ile tempo ve ritim çalışın
+  </h2>
 
+  <p style="font-size:14px;line-height:1.7;color:var(--mut);margin:0 0 12px">
+    LMX Online Metronom, müzik çalışmalarınızda düzenli tempo tutmanıza
+    yardımcı olan ücretsiz bir araçtır. Kurulum gerektirmeden
+    tarayıcınızda çalışır. Tempoyu 30–300 BPM arasında ayarlayabilir
+    veya Tap tempo düğmesine ritmik tıklayarak belirleyebilirsiniz.
+  </p>
+
+  <p style="font-size:14px;line-height:1.7;color:var(--mut);margin:0 0 12px">
+    4/4, 3/4, 6/8 ve 7/8 gibi farklı ölçülerle çalışabilir,
+    birden fazla ölçüyü birleştirebilir ve her vuruşun vurgusunu
+    değiştirebilirsiniz. Ritmik bölümler, nota ve hece gösterimleri
+    eşliğinde ritim alıştırmaları yapabilirsiniz.
+  </p>
+
+  <p style="font-size:14px;line-height:1.7;color:var(--mut);margin:0">
+    Oluşturduğunuz ritimler kullandığınız tarayıcıda saklanır.
+    JSON indir ve içe aktar seçenekleriyle ritimlerinizi yedekleyebilir
+    veya başka bir cihaza taşıyabilirsiniz.
+  </p>
+</section>
  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v1.8</span></footer>
 </div>
 
