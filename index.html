@@ -178,13 +178,28 @@ body.help-open{overflow:hidden}
 :root:not([data-theme="dark"]) .pwrap.fs{--bg:#c3c8c5;--card:#d3d8d5;--soft:#dde2df;--button:#cdd2cf;--line:#aab1ad;--mut:#4b5a56;--fg:#1f2d2a;--acc:#0a6f5d;--mid:#9a6f2c;--weak:#6f8880}
 :root[data-theme="dark"] .pwrap.fs{--bg:#161a19;--card:#1f2523;--soft:#27312e;--button:#222a28;--line:#33403c;--mut:#8da19a;--fg:#d9e4e0;--acc:#6cc9ad;--mid:#c9a060;--weak:#657f76}
 .pwrap.fs{background:var(--bg);color:var(--fg)}
+
+.measure-tabs .measure-dup{position:absolute;right:-5px;bottom:-7px;z-index:2;display:grid;place-items:center;width:19px;height:19px;border-radius:50%;padding:0;border:1px solid var(--line);background:var(--card);color:var(--mut);box-shadow:0 2px 5px #0002;opacity:0;pointer-events:none}
+.measure-tab:hover .measure-dup,.measure-tab:focus-within .measure-dup{opacity:1;pointer-events:auto}
+.measure-tabs .measure-dup:hover{background:var(--soft);color:var(--acc)}
+@media(hover:none){.measure-tabs .measure-dup{opacity:1;pointer-events:auto}}
+.measure-tabs{padding-bottom:6px}
+
+:root{--demo:#d1413c;--demoglow:#e0453f8c}
+:root[data-theme="dark"]{--demo:#ff7a72;--demoglow:#ff6b6b7a}
+.sub-sound-option[hidden]{display:none}
+.sub-options{display:flex;flex-wrap:wrap;gap:6px 24px;margin:0 0 15px}.sub-options .sub-sound-option{margin:0}
+/* Demo ölçüsü: ince çizgi yok, sadece bloğun çevresine yayılan kalın ve silik glow */
+.mblock{position:relative;display:flex;flex-shrink:0;align-items:stretch;gap:14px}
+.mblock.demo-m:before{content:"";position:absolute;inset:-2px;border-radius:15px;pointer-events:none;box-shadow:0 0 0 0px var(--demoglow),0 0 12px 4px var(--demoglow)}
+.pwrap.fs .mblock.demo-m:before{border-radius:20px}
 </style>
 </head>
 <body>
 
 <div class="app">
  <header class="topbar">
-  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v1.8<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
+  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v1.9<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
   <div class="top-actions"><div class="theme-switch" role="group" aria-label="Görünüm"><button id="theme-light" aria-label="Gündüz teması" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>Gündüz</button><button id="theme-dark" aria-label="Gece teması" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20.8 14A9 9 0 0 1 10 3.2 9 9 0 1 0 20.8 14Z"/></svg>Gece</button></div><button id="help-open" class="help-btn" aria-label="Nasıl kullanılır? Yardımı aç" title="Nasıl kullanılır?">?</button></div>
  </header>
  <section class="pwrap" aria-labelledby="beats-title">
@@ -194,7 +209,7 @@ body.help-open{overflow:hidden}
   <div class="pulses" id="pulses"></div>
   <div class="legend"><span><i class="strong"></i>Güçlü</span><span><i class="medium"></i>Orta</span><span><i class="weak"></i>Zayıf</span><span><i class="silent"></i>Sessiz</span></div>
   <div class="hint">Tıkla: vurguyu değiştir &nbsp;·&nbsp; <kbd>Ctrl</kbd> + tıkla: seçili vuruşu sessize al</div>
-  <div class="sub-panel"><div class="section-head"><h2 class="section-title">Ritmi böl</h2><span class="eyebrow">Sürükle & bırak</span></div><div id="subs" class="row"></div><p class="section-note">Bir kalıbı yukarıdaki vuruşa sürükle. Tıklarsan tüm vuruşlara uygulanır. Dokunmatik ekranda dokunduğun gibi sürükleyebilirsin.</p><label class="sub-sound-option"><input type="checkbox" id="same-sub-sound" checked>Alt vuruşlarda aynı ses</label></div>
+  <div class="sub-panel"><div class="section-head"><h2 class="section-title">Ritmi böl</h2><span class="eyebrow">Sürükle & bırak</span></div><div id="subs" class="row"></div><p class="section-note">Bir kalıbı yukarıdaki vuruşa sürükle. Tıklarsan seçili ölçüye, Ctrl + tıklarsan tüm ölçülere uygulanır. Dokunmatik ekranda dokunduğun gibi sürükleyebilirsin.</p><div class="sub-options"><label class="sub-sound-option"><input type="checkbox" id="same-sub-sound" checked>Alt vuruşlarda aynı ses</label><label class="sub-sound-option demo-option" id="demo-wrap" hidden><input type="checkbox" id="demo-first"><span>Önce ilk ölçüyü demo olarak çal, sonra devam et</span></label></div></div>
  </section>
  <div class="transport"><div class="transport-copy">Ritme odaklan.<small id="transport-detail">4/4 ölçü · 100 BPM</small></div><button class="play" id="play" aria-pressed="false">▶ Başlat</button></div>
  <div class="controls">
@@ -239,7 +254,7 @@ body.help-open{overflow:hidden}
     veya başka bir cihaza taşıyabilirsiniz.
   </p>
 </section>
- <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v1.8</span></footer>
+  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v1.9</span></footer>
 </div>
 
 <div class="help-overlay" id="help-overlay" hidden>
@@ -248,16 +263,16 @@ body.help-open{overflow:hidden}
   <h2 id="help-title">Metronom nasıl kullanılır?</h2>
   <p class="help-lead">Bu sayfa tek pencerede çalışır: ritmini kur, tempoyu ayarla, başlat. Aşağıdaki başlıklara tıklayarak ayrıntılara girebilirsin. Pencerenin dışına tıklayarak ya da ✕ ile kapatabilirsin.</p>
 
-  <details open><summary>Hızlı başlangıç (1 dakika)</summary>
+  <details><summary>Hızlı başlangıç (1 dakika)</summary>
    <ol>
-    <li><b>Başlat / durdur:</b> turuncu <b>▶ Başlat</b> düğmesine bas. Klavyede <kbd>Boşluk</kbd> tuşu ya da sayfada herhangi bir boş alana dokunmak da aynı işi yapar.</li>
+     <li><b>Başlat / durdur:</b> turuncu <b>▶ Başlat</b> düğmesine bas. Klavyede <kbd>Boşluk</kbd> tuşu ya da sayfada herhangi bir boş alana dokunmak da aynı işi yapar. <kbd>Ctrl</kbd> + <kbd>Boşluk</kbd> ise ritmi ilk ölçüyü <b>demo</b> olarak dinleyerek başlatır.</li>
     <li><b>Tempo:</b> büyük sayı dakikadaki vuruş sayısıdır (BPM). <b>+</b> / <b>−</b>, kaydırıcı, hazır tempo düğmeleri ve <b>Tap tempo</b> ile değiştirebilirsin.</li>
     <li><b>Ölçü seç:</b> Ölçü kartından 4/4, 5/8, 7/8 gibi bir ölçüye tıkla. Vuruş kutuları otomatik değişir.</li>
     <li><b>Vuruşları ayarla:</b> bir kutuya dokunarak o vuruşun gücünü değiştir. Her dokunuşta yeni sesi duyarsın.</li>
    </ol>
   </details>
 
-  <details open><summary>Vuruş alanı: kutular ne anlama geliyor?</summary>
+  <details><summary>Vuruş alanı: kutular ne anlama geliyor?</summary>
    <p>Her kare bir <b>vuruş</b>, içindeki sayı ölçüdeki sırasıdır. Çalarken sırayla yanar ve altındaki nota da aynı anda renklenir.</p>
    <p>Bir kutuya her dokunduğunda güç şu sırayla değişir: <b>güçlü → orta → zayıf → sessiz → güçlü …</b></p>
    <ul>
@@ -279,15 +294,33 @@ body.help-open{overflow:hidden}
    <ul>
     <li>Vuruş alanının üstündeki <b>sekmeler</b> ölçüleri gösterir. Bir sekmeye tıklayınca o ölçüyü düzenlersin.</li>
     <li>Sekmeyi sürükleyerek ölçülerin <b>sırasını</b> değiştirebilirsin.</li>
+    <li>Ölçü sayısı arttığında vuruş alanı yana kayar. Ölçü çoğaltınca ya da yeni ölçü ekleyince alan, seçili ölçüyle yeni ölçüyü birlikte gösterecek şekilde kayar. Vuruşlara dokunurken ya da bölme sürükleyip bırakırken kayma konumu başa dönmez.</li>
+    <li>Önce ilk ölçüyü demo olarak çal kutusu (Ritmi böl alanında, “Alt vuruşlarda aynı ses”in yanında; iki ya da daha fazla ölçü varken görünür). İşaretliyken demo olacak 1. ölçü, vuruş alanında ölçü bloğunun <b>çevresine yayılan kalın ve silik kırmızı bir glow</b> ile işaretlenir. Kutu işaretli olduğu sürece bu glow başlatılmadan önce de görünür; kırmızılık tek tek vuruş kutularında değil, <b>tüm ölçü bloğunun etrafında</b> görünür.</li>
+    <li><b>Nasıl çalışır:</b> işaretliyken Başlat'a bastığında önce 1. ölçü bir kez <b>demo</b> olarak çalar, kırmızı glow o ölçü boyunca kalır ve ölçü bitince glow <b>kaybolur</b>. Ardından ritim 1. ölçüden başlayarak normal devam eder. Demo sadece başlangıçta bir kez çalar, döngü her başa dönüşünde tekrarlanmaz. Durdurursan glow tekrar görünür, çünkü demo henüz başlamamıştır. İşaretli değilse ritim doğrudan başlar.</li>
+    <li><b><kbd>Ctrl</kbd> + Boşluk</b> (Mac'te <kbd>⌘</kbd> + Boşluk) kutu işaretli olmasa bile onu işaretleyip ritmi demo modunda başlatır. Kutulu oynuyorsan bulunduğun yerden devam etmez, baştan demo başlar.</li>
+    <li>Kutu odaktayken <kbd>Boşluk</kbd> yalnızca <b>başlat / durdur</b> yapar, kutuyu işaretlemez ya da işareti kaldırmaz. Demo tercihini sadece kutuyu tıklayarak değiştirirsin.</li>
     <li>Sekmedeki küçük <b>×</b> ölçüyü siler (önce onay ister).</li>
+    <li>Sekmenin sağ alt köşesindeki küçük <b>çoğalt</b> düğmesi (üst üste iki kare simgesi) o ölçünün aynısını, vuruş güçleri ve bölmeleriyle birlikte <b>hemen arkasına</b> ekler ve yeni ölçüyü seçer. Telefonda bu düğmeler hep görünür, bilgisayarda sekmenin üstüne gelince çıkar. Metronom çalıyorsa çoğaltma sırasında durur.</li>
     <li><b>Sıfırla</b> ritmi başlangıç haline (tek 4/4 ölçü) getirir, bu da onay ister.</li>
    </ul>
+  </details>
+
+  <details><summary>Demo: ilk ölçüyü dinleyerek başla</summary>
+   <p>Çok ölçülü bir ritimde ilk ölçüyü dinlemek zorunda kalmadan başlamak için <b>Ritmi böl</b> alanındaki <b>Önce ilk ölçüyü demo olarak çal, sonra devam et</b> kutusunu işaretle. Kutuda işaretli olduğu sürece 1. ölçünün bloğu <b>kırmızı bir glow</b> ile çevrelidir, yani hangi ölçünün demo olduğu belli olur.</p>
+   <ul>
+    <li><b>Glow nerede?</b> Kırmızı çerçeve tek tek vuruş kutularında değil, <b>1. ölçü bloğunun tamamının çevresinde</b> görünür. Bloklar arası boşluktan taşmaz, sadece 1. ölçüyü çevreler.</li>
+    <li><b>Ne zaman görünür?</b> Kutuyu işaretlediğin anda, henüz çalmaya başlamamışken de görünür. Başlat'a bastığında demo ölçüsü boyunca kalır ve <b>1. ölçü bitince kaybolur</b>. Durdurursan tekrar belirir.</li>
+    <li><b>Boşluk tuşu kutuya dokunmaz:</b> demo kutusu odaktayken <kbd>Boşluk</kbd> yalnızca başlat / durdur yapar, kutunun işareti değişmez. Demo tercihini sadece kutuyu tıklayarak değiştirirsin.</li>
+    <li><b><kbd>Ctrl</kbd> + Boşluk</b> (Mac'te <kbd>⌘</kbd> + Boşluk) kısayolu kutu işaretli değilse onu işaretler ve ritmi demo modunda başlatır. Zaten çalıyorsa bulunduğun yerden devam etmez, baştan demo başlar.</li>
+   </ul>
+   <p>Demo yalnızca başlangıçta bir kez çalar. Ritmin geri kalanı döngü içinde tekrarlanır, demo her turda yeniden çalmaz.</p>
   </details>
 
   <details><summary>Ritmi böl: notalar ve heceler</summary>
    <p>Her vuruşu daha küçük parçalara bölebilirsin: tek vuruş, sekizlikler, triol, onaltılıklar, altılı gruplar, es (sessiz yer) içeren kalıplar.</p>
    <ul>
-    <li><b>Tıkla:</b> seçtiğin kalıp <b>tüm vuruşlara</b> uygulanır.</li>
+    <li><b>Tıkla:</b> kalıp sadece <b>seçili ölçünün</b> vuruşlarına uygulanır. Hangi ölçünün seçili olduğunu vuruş alanının üstündeki sekmelerden görürsün. Diğer ölçülere dokunulmaz.</li>
+    <li><kbd>Ctrl</kbd> + tıkla: kalıp <b>tüm ölçülerdeki</b> bütün vuruşlara uygulanır. (Mac'te <kbd>⌘</kbd> + tıkla da çalışır.)</li>
     <li><b>Sürükle ve bırak:</b> kalıbı yukarıdaki bir vuruşun üstüne bırakırsan sadece <b>o vuruş</b> değişir. Böylece karışık bir ritim kurarsın, örneğin 1. vuruş Kar-Tal, 2. vuruş An-Ka-Ra, 3. vuruş Ka-Ra-Man gibi. Telefonda da dokunup sürüklemen yeterli.</li>
    </ul>
    <p><b>Heceler</b> ritmi ağızdan söyleyerek öğrenmen için konmuştur. Her hece bir notanın altındadır ve o nota çalınca yanar:</p>
@@ -324,11 +357,13 @@ body.help-open{overflow:hidden}
   <details><summary>Kısayollar</summary>
    <ul>
     <li><kbd>Boşluk</kbd> ya da boş alana tıkla: başlat / durdur</li>
+    <li><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd> (Mac: <kbd>⌘</kbd> + <kbd>Boşluk</kbd>): demo modunda başlat, gerekirse kutuyu işaretle</li>
     <li><kbd>↑</kbd> <kbd>↓</kbd>: tempo +1 / −1</li>
     <li><kbd>Ctrl</kbd> + tıkla: vuruşu sessize al</li>
     <li><kbd>Esc</kbd>: tam ekran ya da bu pencereyi kapat</li>
     <li><b>Gündüz / Gece</b> düğmesi: görünümü değiştirir, tercih hatırlanır.</li>
    </ul>
+   <p><b>Bu sayfa seni hatırlar:</b> açtığında hangi başlıkları açık bıraktığın aynen korunur, sonraki açılışta da öyle gelir. Demo kutusu, tema, tempo, ölçüler ve vuruşlar da saklanır.</p>
   </details>
  </div>
 </div>
@@ -349,7 +384,7 @@ body.help-open{overflow:hidden}
 </div>
 <script>
 const $=id=>document.getElementById(id);
-let sameSubSound=true,restoringState=false;
+let sameSubSound=true,restoringState=false,demoFirst=false,demoPhase=false;
 // Retain grouping-divider support for later use; currently inactive.
 const SHOW_GROUP_DIVIDERS=false;
 let measures=[{num:4,den:4}],activeMeasure=0,addingMeasure=false;
@@ -462,12 +497,27 @@ function drawMeasureTabs(){
       remove.title='Ölçüyü sil';remove.setAttribute('aria-label',`${index+1}. ölçüyü sil`);
       remove.onclick=()=>openMeasureDeleteDialog(index,remove);tab.appendChild(remove);
     }
+    const dup=document.createElement('button');dup.className='measure-dup';
+    dup.innerHTML='<svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.6"/><path d="M10.5 3.5v-.4a1.6 1.6 0 0 0-1.6-1.6H3.1a1.6 1.6 0 0 0-1.6 1.6v5.8a1.6 1.6 0 0 0 1.6 1.6h.4"/></svg>';
+    dup.title='Ölçüyü çoğalt (sonraki ölçü olarak ekle)';dup.setAttribute('aria-label',`${index+1}. ölçüyü çoğalt`);
+    dup.onclick=()=>duplicateMeasure(index);tab.appendChild(dup);
     box.appendChild(tab);
   });
+  $('demo-wrap').hidden=measures.length<2;
   $('new-measure').textContent=addingMeasure?'İptal':'＋ Yeni Ölçü';
   $('new-measure').setAttribute('aria-pressed',addingMeasure);
   $('add-custom-measure').hidden=!addingMeasure;
   $('measure-help').textContent=addingMeasure?'Eklenecek ölçüyü seç. Mevcut ritmin sonuna eklenecek.':`${activeMeasure+1}. ölçüyü düzenliyorsun. Yeni ölçü eklemek için “Yeni Ölçü”ye bas.`;
+}
+function duplicateMeasure(index){
+  if(!measures[index])return;
+  if(playing)toggle();
+  const start=measureStart(index),n=measures[index].num;
+  const lv=levels.slice(start,start+n),ps=pulseSub.slice(start,start+n);
+  measures.splice(index+1,0,{...measures[index]});
+  levels.splice(start+n,0,...lv);pulseSub.splice(start+n,0,...ps);
+  addingMeasure=false;curP=0;curS=0;
+  selectMeasure(index+1);drawSubs();drawPulses();revealMeasures(index,index+1);
 }
 function selectMeasure(index){
   activeMeasure=index;addingMeasure=false;num=measures[index].num;den=measures[index].den;
@@ -477,6 +527,7 @@ function selectMeasure(index){
 function setMeter(n,d){
   if(!Number.isInteger(n)||n<1||n>16||![2,4,8,16].includes(d))return;
   const index=addingMeasure?measures.length:activeMeasure;
+  const prevActive=activeMeasure,wasAdding=addingMeasure;
   const start=measureStart(index),oldLength=measures[index]?.num||0;
   const defaults=Array(n).fill(1);defaults[0]=3;
   if(d===8&&n>=5&&n%2===1){for(let pos=2;pos<=n-3;pos+=2)defaults[pos]=2;}
@@ -488,6 +539,7 @@ function setMeter(n,d){
   $('num').value=n;$('den').value=d;
   curP=0;curS=0;gstarts=new Set([0]);
   drawMeasureTabs();drawSigs();drawSubs();drawPulses();updateSummary();
+  revealMeasures(wasAdding?prevActive:index,index);
 }
 $('new-measure').onclick=()=>{
   if(addingMeasure){selectMeasure(activeMeasure);return;}
@@ -511,7 +563,12 @@ function preview(l){
   click(ctx.currentTime+0.01,l,false);
 }
 let fsMode=false,curRowIdx=-1,curRow=null;
-function rowFor(el,mi){if(!fsMode)return el;if(mi!==curRowIdx){curRow=document.createElement('div');curRow.className='frow';el.appendChild(curRow);curRowIdx=mi;}return curRow;}
+function rowFor(el,mi){if(mi!==curRowIdx){curRow=document.createElement('div');curRow.className=fsMode?'mblock frow':'mblock';el.appendChild(curRow);curRowIdx=mi;}return curRow;}
+function demoActive(){return demoFirst&&measures.length>1;}
+// Kırmızı glow: demo seçiliyken başlatılmadan önce de görünür,
+// demo ölçüsü bitene kadar kalır, sonra kaybolur.
+function demoGlowOn(){return demoActive()&&(!playing||demoPhase);}
+function setDemoGlow(){const b=$("pulses").firstElementChild;if(b)b.classList.toggle("demo-m",demoGlowOn());}
 function layoutFs(el){
   const ref=Math.max(...NOT.map(specW))+2,R=Math.max(1,measures.length),maxN=Math.max(...measures.map(m=>m.num)),gap=10,rg=18,pad=22;
   const W=window.innerWidth-2*pad,H=window.innerHeight-2*pad;
@@ -538,15 +595,23 @@ document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&fsMode)exitFs();});
 
 let helpOpener=null;
-function openHelp(){helpOpener=document.activeElement;$("help-overlay").hidden=false;document.body.classList.add("help-open");$("help-close").focus({preventScroll:true});}
-function closeHelp(){$("help-overlay").hidden=true;document.body.classList.remove("help-open");try{(helpOpener||$("help-open")).focus({preventScroll:true});}catch{}}
+const HELP_KEY='metronom-help-open';
+function helpSections(){return [...document.querySelectorAll('#help-overlay details')];}
+function saveHelpState(){try{localStorage.setItem(HELP_KEY,JSON.stringify(helpSections().map((d,i)=>d.open?i:-1).filter(i=>i>=0)));}catch{}}
+function loadHelpState(){let open=[];try{open=JSON.parse(localStorage.getItem(HELP_KEY)||'null');}catch{}
+ if(!Array.isArray(open))return;
+ const all=helpSections();all.forEach(d=>{d.open=false;});
+ open.filter(i=>Number.isInteger(i)&&i>=0&&i<all.length).forEach(i=>{all[i].open=true;});}
+function openHelp(){helpOpener=document.activeElement;$("help-overlay").hidden=false;document.body.classList.add("help-open");loadHelpState();$("help-close").focus({preventScroll:true});}
+function closeHelp(){$("help-overlay").hidden=true;document.body.classList.remove("help-open");saveHelpState();try{(helpOpener||$("help-open")).focus({preventScroll:true});}catch{}}
+$("help-overlay").addEventListener("toggle",e=>{if(e.target.tagName==="DETAILS")saveHelpState();},true);
 $("help-open").onclick=openHelp;$("help-close").onclick=closeHelp;
 $("help-overlay").addEventListener("click",e=>{if(e.target===$("help-overlay"))closeHelp();});
 $("fs-open").onclick=enterFs;$("fs-close").onclick=exitFs;
 function drawPulses(){
   stopBeatFollow();
   save();
-  const el=$("pulses");el.innerHTML="";curRowIdx=-1;
+  const el=$("pulses");const keepScroll=el.scrollLeft;el.innerHTML="";curRowIdx=-1;
   let sc=1;
   if(fsMode)sc=layoutFs(el);else{const ref=Math.max(...NOT.map(specW))+2,n=Math.max(1,levels.length),gap=14;
    const edgeSpace=24,dividerSpace=Math.max(0,measures.length-1)*14;
@@ -562,12 +627,14 @@ function drawPulses(){
     const c=document.createElement("div");c.className="cell"+(SHOW_GROUP_DIVIDERS&&gstarts.has(i)&&i>0?" gs":"");if(measureAt(i).local===0&&i>0)c.classList.add('gs','measure-start');
     const tag=document.createElement('span');tag.className='beat-meter';
     const mi=measureAt(i).index;
-    tag.textContent=measureAt(i).local===0?`${mi+1}. · ${measures[mi].num}/${measures[mi].den}`:'';
+    tag.textContent=measureAt(i).local===0?`${mi+1}. · ${measures[mi].num}/${measures[mi].den}`+(demoActive()&&mi===0?' · demo':''):'';
     c.appendChild(tag);c.appendChild(b);
     const d=document.createElement("div");d.className="nv";d.id="nv"+i;
     d.innerHTML=noteSVG(NOT[pulseSub[i]],subDefs[pulseSub[i]][2],sc);c.appendChild(d);
     rowFor(el,measureAt(i).index).appendChild(c);
   });
+  setDemoGlow();
+  if(!fsMode)el.scrollLeft=keepScroll;
 }
 const NOT=[
 {it:[["4",0]]},
@@ -642,15 +709,32 @@ function dend(){
   document.removeEventListener("pointermove",dmove);document.removeEventListener("pointerup",dup);document.removeEventListener("pointercancel",dend);
 }
 document.addEventListener("touchmove",e=>{if(drag&&drag.on)e.preventDefault();},{passive:false});
+function activeSubsAll(i){const st=measureStart(activeMeasure),n=measures[activeMeasure]?.num||0;return n>0&&pulseSub.slice(st,st+n).every(x=>x===i);}
+function revealMeasures(a,b){
+  if(fsMode)return;
+  const strip=$('pulses');if(!strip||strip.scrollWidth<=strip.clientWidth+1)return;
+  if(!measures[a]||!measures[b])return;
+  const fi=measureStart(a),li=measureStart(b)+measures[b].num-1,bi=measureStart(b);
+  const f=$('pl'+fi),l=$('pl'+li),m=$('pl'+bi);if(!f||!l||!m)return;
+  const box=strip.getBoundingClientRect(),off=box.left+strip.clientLeft-strip.scrollLeft,pad=14;
+  const left=f.closest('.cell').getBoundingClientRect().left-off,right=l.closest('.cell').getBoundingClientRect().right-off;
+  let t=strip.scrollLeft;
+  if(right-left+2*pad>strip.clientWidth)t=m.closest('.cell').getBoundingClientRect().left-off-strip.clientWidth/2;
+  else if(left-pad<t)t=left-pad;
+  else if(right+pad>t+strip.clientWidth)t=right+pad-strip.clientWidth;
+  t=Math.max(0,Math.min(strip.scrollWidth-strip.clientWidth,t));
+  if(Math.abs(t-strip.scrollLeft)<1)return;
+  strip.scrollTo({left:t,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+}
 function drawSubs(){
   $("subs").innerHTML="";
-  subDefs.forEach(([t],i)=>{const b=document.createElement("button");b.className="chip"+(pulseSub.every(x=>x===i)?" on":"");const sy=subDefs[i][2];
+  subDefs.forEach(([t],i)=>{const b=document.createElement("button");b.className="chip"+(activeSubsAll(i)?" on":"");const sy=subDefs[i][2];
     {const sp=document.createElement("span");sp.innerHTML=noteSVG(NOT[i],sy);sp.title=t;sp.style.display="flex";b.appendChild(sp);}
-    b.title=t;b.setAttribute('aria-label',t);b.setAttribute('aria-pressed',pulseSub.every(x=>x===i));
+    b.title=t;b.setAttribute('aria-label',t);b.setAttribute('aria-pressed',activeSubsAll(i));
     const cap=['Tek vuruş','Sekizlik','Nota + es','Es + nota','Triol','','','','','','Altılama'][i];
     if(!sy)b.classList.add('nosy');
     if(cap){const caption=document.createElement('small');caption.className='sub-label';caption.textContent=cap;b.appendChild(caption);}
-    b.addEventListener("pointerdown",e=>chipDown(e,i,b));b.onclick=()=>{if(noClick)return;sub=i;pulseSub.fill(i);curS=0;drawSubs();drawPulses();};$("subs").appendChild(b);});
+    b.addEventListener("pointerdown",e=>chipDown(e,i,b));b.onclick=e=>{if(noClick)return;sub=i;if(e.ctrlKey||e.metaKey)pulseSub.fill(i);else{const st=measureStart(activeMeasure);pulseSub.fill(i,st,st+measures[activeMeasure].num);}curS=0;drawSubs();drawPulses();};$("subs").appendChild(b);});
 }
 for(let i=1;i<=16;i++){const o=document.createElement("option");o.textContent=i;$("num").appendChild(o);}
 $("num").onchange=e=>{if(!addingMeasure)setMeter(+e.target.value,den);};
@@ -745,17 +829,28 @@ function sched(){
     if(curS>0&&pat[curS]){if(!pat[0]&&curS===pat.indexOf(1)){if(lvl>0)click(nextT,lvl,false);}else if(lvl>0){if(sameSubSound)click(nextT,lvl,false);else click(nextT,0,true);}}
     nextT+=(60/bpm)/pat.length;
     if(++curS>=pat.length){curS=0;curP++;}
+    if(demoPhase&&curS===0&&curP>=Math.min(measures[0].num,levels.length)){
+      demoPhase=false;curP=0;setDemoGlow();
+      setTimeout(()=>{if(playing)$('status-text').textContent='Ritim akıyor';},Math.max(0,(nextT-ctx.currentTime)*1000));
+    }
   }
 }
-function toggle(){
+function stopPlayback(){stopBeatFollow();clearInterval(timer);demoPhase=false;document.querySelectorAll(".p.now").forEach(e=>e.classList.remove("now"));document.querySelectorAll(".nt.lit").forEach(e=>e.classList.remove("lit"));}
+// forceDemo: Ctrl/Cmd + Boşluk. Demo kutusu işaretli değilse işaretlenir ve demo baştan çalınır.
+function toggle(forceDemo){
   if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();
   if(ctx.state==="suspended")ctx.resume();
+  if(forceDemo){
+    if(!demoFirst){demoFirst=true;$("demo-first").checked=true;save();drawMeasureTabs();drawPulses();}
+    if(playing){playing=false;stopPlayback();}
+  }
   playing=!playing;
-  if(playing){curP=0;curS=0;nextT=ctx.currentTime+0.06;sched();timer=setInterval(sched,25);}
-  else{stopBeatFollow();clearInterval(timer);document.querySelectorAll(".p.now").forEach(e=>e.classList.remove("now"));document.querySelectorAll(".nt.lit").forEach(e=>e.classList.remove("lit"));}
-  $("play").textContent=playing?"■ Durdur":"▶ Başlat";$("play").classList.toggle("run",playing);$("play").setAttribute('aria-pressed',playing);document.body.classList.toggle('running',playing);$('status-text').textContent=playing?'Ritim akıyor':'Çalmaya hazır';
+  if(playing){curP=0;curS=0;demoPhase=demoActive();nextT=ctx.currentTime+0.06;sched();timer=setInterval(sched,25);}
+  else stopPlayback();
+  setDemoGlow();
+  $("play").textContent=playing?"■ Durdur":"▶ Başlat";$("play").classList.toggle("run",playing);$("play").setAttribute('aria-pressed',playing);document.body.classList.toggle('running',playing);$('status-text').textContent=playing?(demoPhase?'Demo: 1. ölçü':'Ritim akıyor'):'Çalmaya hazır';
 }
-$("play").onclick=toggle;
+$("play").onclick=()=>toggle();
 // Empty-area clicks toggle playback; control interactions and drag gestures do not.
 const clickControlSelector='button,input,select,textarea,label,a,[role="button"],[contenteditable]:not([contenteditable="false"]),#delete-overlay,#json-overlay,#help-overlay';
 let pointerStartedOnControl=false;
@@ -773,11 +868,13 @@ document.addEventListener("keydown",e=>{
   if(!$("help-overlay").hidden){if(e.key==="Escape")closeHelp();return;}
   if(["INPUT","SELECT"].includes(e.target.tagName))return;
   if(e.code==="Space"&&e.target.tagName==="BUTTON")e.target.blur();
-  if(e.code==="Space"){e.preventDefault();toggle();}
+  // Demo kutusu işaretliyken Boşluk yalnızca başlat/durdur, kutuyu değiştirmez.
+  if(e.code==="Space"&&e.target.id==="demo-first"){e.preventDefault();$("demo-first").blur();toggle();return;}
+  if(e.code==="Space"){e.preventDefault();toggle(e.ctrlKey||e.metaKey);}
   if(e.code==="ArrowUp"){e.preventDefault();setBpm(bpm+1);}
   if(e.code==="ArrowDown"){e.preventDefault();setBpm(bpm-1);}
 });
-function snapshot(){return {version:2,bpm,num,den,measures:measures.map(m=>({...m})),activeMeasure,levels:[...levels],pulseSub:[...pulseSub],sub,sameSubSound};}
+function snapshot(){return {version:2,demoFirst,bpm,num,den,measures:measures.map(m=>({...m})),activeMeasure,levels:[...levels],pulseSub:[...pulseSub],sub,sameSubSound};}
 function save(){if(restoringState)return;try{localStorage.setItem('metronom-state',JSON.stringify(snapshot()));}catch{}}
 function updateSummary(){save();$('meter-badge').textContent=addingMeasure?'Yeni ölçü':`${num} / ${den}`;$('transport-detail').textContent=`${measures.length} ölçü · ${levels.length} vuruş · ${bpm} BPM`;}
 function setTheme(theme){document.documentElement.dataset.theme=theme;['light','dark'].forEach(t=>$('theme-'+t).setAttribute('aria-pressed',t===theme));try{localStorage.setItem('metronom-theme',theme);}catch{}}
@@ -797,6 +894,7 @@ function applyState(st){
     $('num').value=num;$('den').value=den;
     sameSubSound=typeof st.sameSubSound==='boolean'?st.sameSubSound:true;
     $('same-sub-sound').checked=sameSubSound;
+    if(typeof st.demoFirst==='boolean'){demoFirst=st.demoFirst;$('demo-first').checked=demoFirst;}
     sub=Number.isInteger(st.sub)&&st.sub>=0&&st.sub<subDefs.length?st.sub:0;
     levels=st.levels.map(x=>[0,1,2,3].includes(x)?x:1);
     pulseSub=Array.from({length:total},(_,i)=>{
@@ -975,7 +1073,7 @@ function drawPresets(){
     const b=document.createElement('button');b.className='preset-load';
     const n=document.createElement('span');n.className='preset-name';n.textContent=p.name;
     const m=document.createElement('small');m.textContent=(Array.isArray(p.measures)?p.measures.map(m=>`${m.num}/${m.den}`).join(' + '):`${p.num}/${p.den}`)+` · ${p.bpm} BPM`;
-    b.append(n,m);b.onclick=()=>{if(applyState(p))flashMsg(`"${p.name}" yüklendi`);};
+    b.append(n,m);b.onclick=()=>{if(applyState(p)){$('pulses').scrollLeft=0;flashMsg(`"${p.name}" yüklendi`);}};
     const d=document.createElement('button');d.className='preset-del';d.textContent='×';d.setAttribute('aria-label',p.name+' kaydını sil');d.title='Sil';
     d.onclick=()=>openDeleteDialog(p,d);
     const edit=document.createElement('button');edit.className='preset-edit';edit.textContent='Düzenle';
@@ -1016,6 +1114,7 @@ $('psave').onclick=()=>{
   $('pname').value='';drawPresets();$('preset-list').scrollTop=0;
   flashMsg(k>=0?`"${name}" güncellendi`:`"${name}" kaydedildi`);
 };
+$('demo-first').onchange=e=>{demoFirst=e.target.checked;e.target.blur();save();drawMeasureTabs();drawPulses();};
 $('same-sub-sound').onchange=e=>{sameSubSound=e.target.checked;save();};
 $('pname').addEventListener('keydown',e=>{if(e.key==='Enter')$('psave').click();});
 drawTempoPresets();
