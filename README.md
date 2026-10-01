@@ -1,4 +1,4 @@
-# Edi Metronome / Edi Metronom
+# LmX Metronome / LmX Metronom
 
 A browser-based metronome built in a single HTML file. Customize your tempo, combine time signatures, edit beat accents and save your rhythms. The application interface is in Turkish.
 
