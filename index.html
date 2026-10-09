@@ -157,8 +157,9 @@ body.fs-open .topbar,body.fs-open .transport,body.fs-open .controls,body.fs-open
 .pwrap.fs .fs-close{display:grid;place-items:center;position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;z-index:2;width:36px;height:36px;padding:0;border-radius:50%;font-size:15px;opacity:.55;background:var(--card)}
 .pwrap.fs{position:relative}
 .pwrap.fs .fs-close:hover{opacity:1}
+body.win-open{overflow:hidden}
 body.win-open .topbar,body.win-open .transport,body.win-open .controls,body.win-open .footer,body.win-open section[aria-labelledby="about-metronome"]{display:none}
-.pwrap.win{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.pwrap.win{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:100;background:var(--bg);border:0;border-radius:0;box-shadow:none;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
 .pwrap.win>.section-head,.pwrap.win>.measure-tabs,.pwrap.win>.legend,.pwrap.win>.hint,.pwrap.win>.sub-panel{display:none}
 .pwrap.win .pulses{width:100%;height:100%;padding:0;margin:0;overflow:hidden;flex-direction:column;align-items:center;justify-content:center;gap:var(--rowgap,18px)}
 .pwrap.win .frow{display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-start;gap:var(--fgap,10px)}
@@ -282,11 +283,11 @@ input,textarea{-webkit-user-select:text;user-select:text}
 
 <div class="app">
  <header class="topbar">
-  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v2.6<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
+  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v3.0<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
   <div class="top-actions"><div class="theme-switch" role="group" aria-label="Görünüm"><button id="theme-light" aria-label="Gündüz teması" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>Gündüz</button><button id="theme-dark" aria-label="Gece teması" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20.8 14A9 9 0 0 1 10 3.2 9 9 0 1 0 20.8 14Z"/></svg>Gece</button></div><button id="help-open" class="help-btn" aria-label="Nasıl kullanılır? Yardımı aç" title="Nasıl kullanılır?">?</button></div>
  </header>
  <section class="pwrap" aria-labelledby="beats-title">
-  <div class="section-head beat-head"><h2 class="section-title" id="beats-title">Vuruş alanı</h2><div class="beat-head-actions"><div class="beat-toolbar"><div class="beat-view-actions"><button id="fs-open" aria-label="Vuruş alanını tam ekran göster">⛶ Tam ekran</button><button id="win-open" aria-label="Vuruş alanını pencere modunda göster">▢ Pencere</button></div></div><div class="status" role="status"><span class="status-dot"></span><span id="status-text">Çalmaya hazır</span></div></div></div>
+  <div class="section-head beat-head"><h2 class="section-title" id="beats-title">Vuruş alanı</h2><div class="beat-head-actions"><div class="beat-toolbar"><div class="beat-view-actions"><button id="win-open" aria-label="Vuruş alanını tam ekran göster">⛶ Tam ekran</button></div></div><div class="status" role="status"><span class="status-dot"></span><span id="status-text">Çalmaya hazır</span></div></div></div>
   <button class="fs-close" id="fs-close" aria-label="Tam ekrandan çık">✕</button>
   <div class="beat-meter-bar"><div class="measure-tabs" id="measure-tabs" role="group" aria-label="Ritimdeki ölçüler"></div><div class="beat-tempo" role="group" aria-label="Vuruş alanı temposu"><button id="beat-tempo-minus" aria-label="Tempoyu 5 azalt">−</button><button id="beat-tempo-value" aria-label="Tempo seç">100</button><button id="beat-tempo-plus" aria-label="Tempoyu 5 artır">+</button></div></div>
   <div class="pulses" id="pulses"></div>
@@ -338,7 +339,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
     veya başka bir cihaza taşıyabilirsiniz.
   </p>
 </section>
-  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v2.6</span></footer>
+  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v3.0</span></footer>
 </div>
 
 <div class="help-overlay" id="help-overlay" hidden>
@@ -751,8 +752,8 @@ function closeHelp(){$("help-overlay").hidden=true;document.body.classList.remov
 $("help-overlay").addEventListener("toggle",e=>{if(e.target.tagName==="DETAILS")saveHelpState();},true);
 $("help-open").onclick=openHelp;$("help-close").onclick=closeHelp;
 $("help-overlay").addEventListener("click",e=>{if(e.target===$("help-overlay"))closeHelp();});
-$("fs-open").onclick=enterFs;$("fs-close").onclick=exitFs;$("win-open").onclick=enterWin;
-$("fs-close").onclick=()=>{if(winMode)exitWin();else exitFs();};
+$("win-open").onclick=enterWin;
+$("fs-close").onclick=exitWin;
 function drawPulses(){
   stopBeatFollow();
   save();
@@ -831,8 +832,7 @@ function fillSubPopList(beat){
 }
 $("pulses").closest(".pwrap").addEventListener("click",e=>{
   if(e.button!==0||noClick||drag||!subPop.hidden||!$('quick-overlay').hidden)return;
-  if(!e.target.closest('#pulses'))return;
-  if(e.target.closest('button,input,select,textarea,label,a,.nv,.nt,.measure-tab,#sub-popover,#quick-overlay'))return;
+  if(e.target.closest('button,input,select,textarea,label,a,.nv,.nt,.measure-tab,.beat-meter-bar,.beat-toolbar,.sub-panel,#sub-popover,#quick-overlay,#delete-overlay'))return;
   e.stopPropagation();toggle();
 });
 $("pulses").addEventListener("click",e=>{
@@ -840,13 +840,7 @@ $("pulses").addEventListener("click",e=>{
   if(!nt||noClick||drag)return;
   const nv=nt.classList.contains("nv")?nt:nt.closest(".nv");if(!nv)return;
   const beat=Number(nv.id.slice(2));
-  const isMobile=window.matchMedia('(pointer:coarse)').matches||window.innerWidth<580;
-  if(fsMode||winMode){fillSubPopList(beat);subPop.classList.add('fs-mode');subPop.hidden=false;return;}
-  if(isMobile){
-    enterWin();
-    setTimeout(()=>{fillSubPopList(beat);subPop.classList.add('fs-mode');subPop.hidden=false;},60);
-    return;
-  }
+  if(winMode){fillSubPopList(beat);subPop.classList.add('fs-mode');subPop.hidden=false;return;}
   if(e.ctrlKey||e.metaKey){
     const i=(pulseSub[beat]+1)%subDefs.length;
     pulseSub[beat]=i;curS=0;drawSubs();drawPulses();preview(i);
@@ -1128,7 +1122,8 @@ function toggle(forceDemo){
 }
 // Normal görünümde çalarken ilk tıklama, hedefinden bağımsız olarak durdurur.
 document.addEventListener("click",e=>{
-  if(!playing||fsMode||winMode||e.button!==0)return;
+  if(!playing||winMode||e.button!==0||noClick||drag)return;
+  if(e.target.closest('.sub-panel,.nv,.nt,#sub-popover,#quick-overlay,#delete-overlay,#json-overlay,#help-overlay'))return;
   e.preventDefault();e.stopImmediatePropagation();toggle();
 },true);
 $("play").onclick=()=>toggle();
