@@ -143,10 +143,11 @@ body.measure-reordering,body.measure-reordering *{cursor:grabbing!important;user
 /* Ritmi böl: touch drag, no scrolling */
 .sub-panel,#subs,#subs .chip{touch-action:none}
 /* Fullscreen beat view */
-#fs-open{font-size:11px;padding:7px 11px;background:var(--button);color:var(--fg)}
+#fs-open,#win-open{font-size:11px;padding:7px 11px;background:var(--button);color:var(--fg)}
 .fs-close{display:none}
 body.fs-open{overflow:hidden}
-.pwrap.fs{position:fixed;inset:0;z-index:150;width:100%;border:0;border-radius:0;box-shadow:none;padding:0;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden}
+body.fs-open .topbar,body.fs-open .transport,body.fs-open .controls,body.fs-open .footer,body.fs-open section[aria-labelledby="about-metronome"]{display:none}
+.pwrap.fs{border-radius:0;border-left:0;border-right:0;box-shadow:none;padding:24px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
 .pwrap.fs>.section-head,.pwrap.fs>.measure-tabs,.pwrap.fs>.legend,.pwrap.fs>.hint,.pwrap.fs>.sub-panel{display:none}
 .pwrap.fs .pulses{width:100%;height:100%;padding:0;margin:0;overflow:hidden;flex-direction:column;align-items:center;justify-content:center;gap:var(--rowgap,18px)}
 .pwrap.fs .frow{display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-start;gap:var(--fgap,10px)}
@@ -154,7 +155,19 @@ body.fs-open{overflow:hidden}
 .pwrap.fs .cell.measure-start::before{display:none}
 .pwrap.fs .beat-meter{display:none}
 .pwrap.fs .fs-close{display:grid;place-items:center;position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;z-index:2;width:36px;height:36px;padding:0;border-radius:50%;font-size:15px;opacity:.55;background:var(--card)}
+.pwrap.fs{position:relative}
 .pwrap.fs .fs-close:hover{opacity:1}
+body.win-open .topbar,body.win-open .transport,body.win-open .controls,body.win-open .footer,body.win-open section[aria-labelledby="about-metronome"]{display:none}
+.pwrap.win{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.pwrap.win>.section-head,.pwrap.win>.measure-tabs,.pwrap.win>.legend,.pwrap.win>.hint,.pwrap.win>.sub-panel{display:none}
+.pwrap.win .pulses{width:100%;height:100%;padding:0;margin:0;overflow:hidden;flex-direction:column;align-items:center;justify-content:center;gap:var(--rowgap,18px)}
+.pwrap.win .frow{display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-start;gap:var(--fgap,10px)}
+.pwrap.win .cell.measure-start{margin-left:0}
+.pwrap.win .cell.measure-start::before{display:none}
+.pwrap.win .beat-meter{display:none}
+.pwrap.win .fs-close{display:grid;place-items:center;position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;z-index:2;width:36px;height:36px;padding:0;border-radius:50%;font-size:15px;opacity:.55;background:var(--card)}
+.pwrap.win .fs-close:hover{opacity:1}
+.pwrap.win .sub-popover{position:fixed;z-index:9999;left:50%!important;top:50%!important;transform:translate(-50%,-50%);max-height:86vh;width:min(420px,92vw)}
 
 .top-actions{display:flex;align-items:center;gap:8px}
 .help-btn{width:40px;height:40px;padding:0;border-radius:50%;font-weight:700;font-size:17px;background:var(--card);color:var(--acc);border:1px solid var(--line)}
@@ -198,20 +211,77 @@ body.help-open{overflow:hidden}
 .nt.lit text{font-weight:400;opacity:1}
 
 .cell .p.now,.cell.demo-m .p.now{transform:none;background:#b31929;border-color:#b31929;border-style:solid;color:#fff;box-shadow:0 0 0 3px rgba(179,25,41,.28),0 0 14px rgba(179,25,41,.45)}
+
+.nt{cursor:pointer}
+.nt:hover{opacity:.75}
+.sub-popover{position:fixed;z-index:180;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,.35);padding:10px;max-height:min(420px,70vh);display:flex;flex-direction:column;gap:4px;overscroll-behavior:contain}
+.pwrap.fs .sub-popover{position:fixed;z-index:9999;left:50%!important;top:50%!important;transform:translate(-50%,-50%);max-height:86vh;width:min(420px,92vw)}
+.sub-popover[hidden]{display:none}
+.sub-popover.fs-mode{left:50%!important;top:50%!important;transform:translate(-50%,-50%);max-height:86vh;width:min(420px,92vw)}
+.nv{cursor:pointer;min-height:20px;padding:2px 0;width:var(--cw,84px);display:flex;justify-content:center;border-radius:8px;transition:background .1s}
+.nv:hover{background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.nv:has(.nt:active){background:color-mix(in srgb,var(--acc) 18%,transparent)}
+.nv{cursor:pointer}
+.sub-popover-head{display:flex;align-items:center;justify-content:space-between;padding:2px 6px 8px}
+.sub-popover-head b{font-size:12px;color:var(--mut);font-weight:600}
+.sub-popover-close{background:var(--button);border:1px solid var(--line);border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:13px;padding:0;color:var(--mut);cursor:pointer}
+.sub-popover-close:hover{color:var(--fg);border-color:var(--acc)}
+.sub-popover-list{overflow-y:auto;display:flex;flex-direction:column;gap:2px;padding-right:4px}
+.sub-popover-item{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:10px;cursor:pointer;border:1px solid transparent;background:transparent;transition:background .12s}
+.sub-popover-item:hover{background:var(--soft)}
+.sub-popover-item.on{background:var(--soft);border-color:var(--acc)}
+.sub-popover-item svg{flex-shrink:0;color:var(--mut)}
+.sub-popover-item.on svg{color:var(--acc)}
+.sub-popover-item .sp-name{font-size:12px;color:var(--fg);white-space:nowrap}
+.sub-popover-item .sp-tag{font-size:10px;color:var(--mut);margin-left:auto}
+.sub-popover-hint{font-size:10px;color:var(--mut);padding:6px 6px 2px;text-align:center}
+.beat-tempo{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:15px}
+.beat-tempo button{padding:6px 12px}.beat-tempo small{font-size:10px;color:var(--mut)}
+#beat-tempo-value{font-weight:700;min-width:65px;color:var(--acc)}
+.pwrap.fs .beat-tempo,.pwrap.win .beat-tempo{position:absolute;top:10px;left:50%;transform:translateX(-50%);margin:0;z-index:3}
+.pwrap.fs>.measure-tabs,.pwrap.win>.measure-tabs{display:flex;position:absolute;top:57px;left:16px;right:16px;flex-wrap:nowrap;overflow-x:auto;margin:0;padding:8px 5px;z-index:3}
+.pwrap.fs .pulses,.pwrap.win .pulses{padding-top:105px}
+#quick-overlay{z-index:400}
+.quick-dialog{max-width:420px;max-height:85vh;overflow-y:auto}
+.quick-choices{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:18px}
+.quick-custom{display:flex;align-items:center;gap:8px;margin-top:16px}
+.quick-custom input{width:90px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);padding:8px;font:inherit}
+.quick-custom[hidden]{display:none}
+.beat-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:10px 12px;background:var(--button);border:1px solid var(--line);border-radius:14px}
+.beat-toolbar .beat-tempo{margin:0;gap:4px}.beat-toolbar .beat-tempo button{background:var(--card);border-radius:9px;height:34px}
+.beat-view-actions{display:flex;gap:6px;align-items:center}.beat-view-actions button{white-space:nowrap}
+.pwrap.fs .beat-toolbar,.pwrap.win .beat-toolbar{position:absolute;top:10px;left:16px;right:60px;z-index:3;margin:0;padding:6px 9px}
+.pwrap.fs .beat-toolbar .beat-tempo,.pwrap.win .beat-toolbar .beat-tempo{position:static;transform:none;margin:0}
+.pwrap.fs #fs-open,.pwrap.win #win-open{display:none}
+.pwrap.fs>.measure-tabs,.pwrap.win>.measure-tabs{top:68px}
+.pwrap.fs .pulses,.pwrap.win .pulses{padding-top:120px}
+#quick-tempo-actions[hidden]{display:none}#quick-tap{min-width:95px;background:var(--soft);color:var(--acc)}
+@media(max-width:420px){.beat-toolbar{gap:6px;padding:8px}.beat-view-actions{gap:4px}.beat-view-actions button{font-size:10px!important;padding:7px!important}.beat-toolbar .beat-tempo button{padding:5px 9px}#beat-tempo-value{min-width:52px}}
+.beat-toolbar{justify-content:flex-end;background:transparent;border:0;padding:0;margin-top:10px}
+.beat-meter-bar{display:flex;align-items:center;gap:12px;min-width:0;margin-top:10px;padding:7px 10px;background:var(--button);border:1px solid var(--line);border-radius:14px}
+.beat-meter-bar>.measure-tabs{flex:1;min-width:0;display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;margin:0;padding:9px 5px;scrollbar-width:thin}
+.beat-meter-bar>.beat-tempo{flex:none;margin:0;position:static;transform:none}
+.beat-meter-bar>.beat-tempo button{background:var(--card);border-radius:9px;height:34px}
+.pwrap.fs>.beat-meter-bar,.pwrap.win>.beat-meter-bar{position:absolute;top:64px;left:16px;right:16px;z-index:3;margin:0}
+.pwrap.fs>.beat-meter-bar>.measure-tabs,.pwrap.win>.beat-meter-bar>.measure-tabs{position:static;display:flex;flex:1;min-width:0;max-width:none;margin:0;padding:9px 5px;overflow-x:auto}
+.pwrap.fs>.beat-meter-bar>.beat-tempo,.pwrap.win>.beat-meter-bar>.beat-tempo{position:static;transform:none}
+@media(max-width:580px){.beat-meter-bar{gap:5px;padding:5px}.beat-meter-bar>.beat-tempo{gap:2px}.beat-meter-bar>.beat-tempo button{padding:5px 8px}#beat-tempo-value{min-width:50px}.pwrap.fs>.beat-meter-bar,.pwrap.win>.beat-meter-bar{left:8px;right:8px}}
 </style>
 </head>
 <body>
 
 <div class="app">
  <header class="topbar">
-  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v2.0<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
+  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v2.5<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
   <div class="top-actions"><div class="theme-switch" role="group" aria-label="Görünüm"><button id="theme-light" aria-label="Gündüz teması" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>Gündüz</button><button id="theme-dark" aria-label="Gece teması" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20.8 14A9 9 0 0 1 10 3.2 9 9 0 1 0 20.8 14Z"/></svg>Gece</button></div><button id="help-open" class="help-btn" aria-label="Nasıl kullanılır? Yardımı aç" title="Nasıl kullanılır?">?</button></div>
  </header>
  <section class="pwrap" aria-labelledby="beats-title">
-  <div class="section-head"><h2 class="section-title" id="beats-title">Vuruş alanı</h2><div style="display:flex;align-items:center;gap:12px"><button id="fs-open" aria-label="Vuruş alanını tam ekran göster">⛶ Tam ekran</button><div class="status" role="status"><span class="status-dot"></span><span id="status-text">Çalmaya hazır</span></div></div></div>
+  <div class="section-head"><h2 class="section-title" id="beats-title">Vuruş alanı</h2><div class="status" role="status"><span class="status-dot"></span><span id="status-text">Çalmaya hazır</span></div></div>
+  <div class="beat-toolbar"><div class="beat-view-actions"><button id="fs-open" aria-label="Vuruş alanını tam ekran göster">⛶ Tam ekran</button><button id="win-open" aria-label="Vuruş alanını pencere modunda göster">▢ Pencere</button></div></div>
   <button class="fs-close" id="fs-close" aria-label="Tam ekrandan çık">✕</button>
-  <div class="measure-tabs" id="measure-tabs" role="group" aria-label="Ritimdeki ölçüler"></div>
+  <div class="beat-meter-bar"><div class="measure-tabs" id="measure-tabs" role="group" aria-label="Ritimdeki ölçüler"></div><div class="beat-tempo" role="group" aria-label="Vuruş alanı temposu"><button id="beat-tempo-minus" aria-label="Tempoyu 5 azalt">−</button><button id="beat-tempo-value" aria-label="Tempo seç">100</button><button id="beat-tempo-plus" aria-label="Tempoyu 5 artır">+</button></div></div>
   <div class="pulses" id="pulses"></div>
+
   <div class="legend"><span><i class="strong"></i>Güçlü</span><span><i class="medium"></i>Orta</span><span><i class="weak"></i>Zayıf</span><span><i class="silent"></i>Sessiz</span></div>
   <div class="hint">Tıkla: vurguyu değiştir &nbsp;·&nbsp; <kbd>Ctrl</kbd> + tıkla: seçili vuruşu sessize al</div>
   <div class="sub-panel"><div class="section-head"><h2 class="section-title">Ritmi böl</h2><span class="eyebrow">Sürükle & bırak</span></div><div id="subs" class="row"></div><p class="section-note">Bir kalıbı yukarıdaki vuruşa sürükle. Tıklarsan seçili ölçüye, Ctrl + tıklarsan tüm ölçülere uygulanır. Dokunmatik ekranda dokunduğun gibi sürükleyebilirsin.</p><div class="sub-options"><label class="sub-sound-option"><input type="checkbox" id="same-sub-sound" checked>Alt vuruşlarda aynı ses</label><label class="sub-sound-option demo-option" id="demo-wrap" hidden><input type="checkbox" id="demo-first"><span>Önce ilk ölçüyü demo olarak çal, sonra devam et</span></label></div></div>
@@ -259,7 +329,7 @@ body.help-open{overflow:hidden}
     veya başka bir cihaza taşıyabilirsiniz.
   </p>
 </section>
-  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v2.0</span></footer>
+  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v2.5</span></footer>
 </div>
 
 <div class="help-overlay" id="help-overlay" hidden>
@@ -386,11 +456,26 @@ body.help-open{overflow:hidden}
  </div>
 </div>
 <div class="delete-overlay" id="json-overlay" hidden>
- <div class="delete-dialog json-dialog" role="dialog" aria-modal="true" aria-labelledby="json-title" aria-describedby="json-help">
-  <h2 id="json-title">Ritimleri dışa aktar</h2><p id="json-help"></p>
-  <textarea id="json-data" spellcheck="false" aria-label="Seçilen dosyanın JSON önizlemesi" readonly></textarea>
-  <div id="json-message" role="status" aria-live="polite"></div>
-  <div class="delete-actions"><button id="json-close">Kapat</button><button id="json-action">Kopyala</button></div>
+  <div class="delete-dialog json-dialog" role="dialog" aria-modal="true" aria-labelledby="json-title" aria-describedby="json-help">
+   <h2 id="json-title">Ritimleri dışa aktar</h2><p id="json-help"></p>
+   <textarea id="json-data" spellcheck="false" aria-label="Seçilen dosyanın JSON önizlemesi" readonly></textarea>
+   <div id="json-message" role="status" aria-live="polite"></div>
+   <div class="delete-actions"><button id="json-close">Kapat</button><button id="json-action">Kopyala</button></div>
+  </div>
+</div>
+<div class="sub-popover" id="sub-popover" hidden role="dialog" aria-modal="false" aria-label="Ritim kalıbı seç">
+  <div class="sub-popover-head"><b id="sub-popover-title">Kalıp seç</b><button class="sub-popover-close" id="sub-popover-close" aria-label="Kapat">✕</button></div>
+  <div class="sub-popover-list" id="sub-popover-list"></div>
+  <div class="sub-popover-hint">Ctrl + tık: tüm ölçülere uygula</div>
+</div>
+<div class="delete-overlay" id="quick-overlay" hidden>
+ <div class="delete-dialog quick-dialog" role="dialog" aria-modal="true" aria-labelledby="quick-title">
+  <h2 id="quick-title">Tempo seç</h2>
+  <div class="quick-choices" id="quick-choices"></div>
+  <div class="quick-custom" id="quick-tempo-custom"><input id="quick-bpm" type="number" min="30" max="300" aria-label="Tempo BPM"><button id="quick-bpm-apply">Uygula</button></div>
+  <div class="row tempo-actions" id="quick-tempo-actions"><button id="quick-minus-one" aria-label="Tempoyu 1 azalt">−1</button><button id="quick-tap">Tap</button><button id="quick-plus-one" aria-label="Tempoyu 1 artır">+1</button></div>
+  <div class="quick-custom" id="quick-meter-custom" hidden><select id="quick-num" aria-label="Ölçü payı"></select><span>/</span><select id="quick-den" aria-label="Ölçü paydası"><option>2</option><option>4</option><option>8</option><option>16</option></select><button id="quick-meter-apply">Uygula</button></div>
+  <div class="delete-actions"><button id="quick-close">Kapat</button></div>
  </div>
 </div>
 <script>
@@ -506,7 +591,7 @@ function drawMeasureTabs(){
     button.title='Sürükleyerek sırala · Tıklayarak düzenle';
     button.addEventListener('pointerdown',e=>beginMeasureDrag(e,index,button));
     button.addEventListener('lostpointercapture',e=>endMeasureDrag(e,true));
-    button.onclick=()=>{if(performance.now()>=suppressMeasureClickUntil)selectMeasure(index);};
+    button.onclick=()=>{if(performance.now()>=suppressMeasureClickUntil){selectMeasure(index);openMeterPicker(index);}};
     const tab=document.createElement('div');tab.className='measure-tab';tab.dataset.index=index;tab.appendChild(button);
     if(measures.length>1){
       const remove=document.createElement('button');remove.className='measure-remove';remove.textContent='×';
@@ -578,8 +663,8 @@ function preview(l){
   if(ctx.state==="suspended")ctx.resume();
   click(ctx.currentTime+0.01,l,false);
 }
-let fsMode=false,curRowIdx=-1,curRow=null;
-function rowFor(el,mi){if(mi!==curRowIdx){curRow=document.createElement('div');curRow.className=fsMode?'mblock frow':'mblock';el.appendChild(curRow);curRowIdx=mi;}return curRow;}
+let fsMode=false,winMode=false,curRowIdx=-1,curRow=null;
+function rowFor(el,mi){if(mi!==curRowIdx){curRow=document.createElement('div');curRow.className=(fsMode||winMode)?'mblock frow':'mblock';el.appendChild(curRow);curRowIdx=mi;}return curRow;}
 function demoActive(){return demoFirst&&measures.length>1;}
 // Kırmızı glow: demo seçiliyken başlatılmadan önce de görünür,
 // demo ölçüsü bitene kadar kalır, sonra kaybolur.
@@ -587,7 +672,7 @@ function demoGlowOn(){return demoActive()&&(!playing||demoPhase);}
 function setDemoGlow(){const b=$("pulses").firstElementChild;if(b)b.classList.toggle("demo-m",demoGlowOn());}
 function layoutFs(el){
   const ref=Math.max(...NOT.map(specW))+2,R=Math.max(1,measures.length),maxN=Math.max(...measures.map(m=>m.num)),gap=10,rg=18,pad=22;
-  const W=window.innerWidth-2*pad,H=window.innerHeight-2*pad;
+  const W=window.innerWidth-2*pad,H=window.innerHeight-2*pad-120;
   const cwW=(W-(maxN-1)*gap)/maxN;
   const cwH=((H-(R-1)*rg)/R-18)/(1+52/ref);
   const cw=Math.max(24,Math.floor(Math.min(cwW,cwH,260)));
@@ -595,20 +680,54 @@ function layoutFs(el){
   el.style.setProperty("--fgap",gap+"px");el.style.setProperty("--rowgap",rg+"px");
   return cw/ref;
 }
+function syncSubPopHost(){
+  const pop=$('sub-popover');
+  const host=(fsMode||winMode)?$('pulses').closest('.pwrap'):document.body;
+  if(pop.parentElement!==host)host.appendChild(pop);
+  const quick=$('quick-overlay');if(quick.parentElement!==host)host.appendChild(quick);
+  const confirm=$('delete-overlay');if(confirm.parentElement!==host)host.appendChild(confirm);
+}
 function enterFs(){
-  if(fsMode)return;fsMode=true;
+  if(fsMode)return;
+  if(winMode){winMode=false;$("pulses").closest(".pwrap").classList.remove("win");document.body.classList.remove("win-open");}
+  fsMode=true;
   const w=$("pulses").closest(".pwrap");w.classList.add("fs");document.body.classList.add("fs-open");
+  syncSubPopHost();
   try{const q=w.requestFullscreen&&w.requestFullscreen();if(q&&q.catch)q.catch(()=>{});}catch{}
   drawPulses();
 }
 function exitFs(){
   if(!fsMode)return;fsMode=false;
   $("pulses").closest(".pwrap").classList.remove("fs");document.body.classList.remove("fs-open");
+  syncSubPopHost();
   try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});}catch{}
   drawPulses();
 }
+
+function enterWin(){
+  if(winMode)return;
+  if(fsMode)exitFs();
+  winMode=true;fsMode=false;
+  const w=$("pulses").closest(".pwrap");w.classList.add("win");document.body.classList.add("win-open");
+  syncSubPopHost();
+  drawPulses();
+}
+function exitWin(){
+  if(!winMode)return;winMode=false;
+  $("pulses").closest(".pwrap").classList.remove("win");document.body.classList.remove("win-open");
+  syncSubPopHost();
+  drawPulses();
+}
 document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&fsMode)exitFs();});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&fsMode)exitFs();});
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape")return;
+  if(!$("quick-overlay").hidden){e.preventDefault();e.stopImmediatePropagation();closeQuickPicker();return;}
+  if(!subPop.hidden){
+    e.preventDefault();e.stopImmediatePropagation();closeSubPop();return;
+  }
+  if(fsMode){e.preventDefault();e.stopImmediatePropagation();exitFs();return;}
+  if(winMode){e.preventDefault();e.stopImmediatePropagation();exitWin();}
+});
 
 let helpOpener=null;
 const HELP_KEY='metronom-help-open';
@@ -623,13 +742,14 @@ function closeHelp(){$("help-overlay").hidden=true;document.body.classList.remov
 $("help-overlay").addEventListener("toggle",e=>{if(e.target.tagName==="DETAILS")saveHelpState();},true);
 $("help-open").onclick=openHelp;$("help-close").onclick=closeHelp;
 $("help-overlay").addEventListener("click",e=>{if(e.target===$("help-overlay"))closeHelp();});
-$("fs-open").onclick=enterFs;$("fs-close").onclick=exitFs;
+$("fs-open").onclick=enterFs;$("fs-close").onclick=exitFs;$("win-open").onclick=enterWin;
+$("fs-close").onclick=()=>{if(winMode)exitWin();else exitFs();};
 function drawPulses(){
   stopBeatFollow();
   save();
   const el=$("pulses");const keepScroll=el.scrollLeft;el.innerHTML="";curRowIdx=-1;
   let sc=1;
-  if(fsMode)sc=layoutFs(el);else{const ref=Math.max(...NOT.map(specW))+2,n=Math.max(1,levels.length),gap=14;
+  if(fsMode||winMode)sc=layoutFs(el);else{const ref=Math.max(...NOT.map(specW))+2,n=Math.max(1,levels.length),gap=14;
    const edgeSpace=24,dividerSpace=Math.max(0,measures.length-1)*14;
    const cw=Math.max(48,Math.min(Math.round(ref),Math.floor((el.clientWidth-edgeSpace-dividerSpace-(n-1)*gap)/n)));
    sc=cw/ref;const sq=Math.min(88,cw);
@@ -645,13 +765,91 @@ function drawPulses(){
     const mi=measureAt(i).index;
     tag.textContent=measureAt(i).local===0?`${mi+1}. · ${measures[mi].num}/${measures[mi].den}`+(demoActive()&&mi===0?' · demo':''):'';
     c.appendChild(tag);c.appendChild(b);
-    const d=document.createElement("div");d.className="nv";d.id="nv"+i;
+    const d=document.createElement("div");d.className="nv";d.id="nv"+i;d.tabIndex=0;
+    d.setAttribute('role','button');
+    d.setAttribute('aria-label',`${measureAt(i).index+1}. ölçü, ${measureAt(i).local+1}. vuruş ritim kalıbını değiştir`);
     d.innerHTML=noteSVG(NOT[pulseSub[i]],subDefs[pulseSub[i]][2],sc);c.appendChild(d);
+    d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();openSubPop(i,d);}});
     rowFor(el,measureAt(i).index).appendChild(c);
   });
   setDemoGlow();
   if(!fsMode)el.scrollLeft=keepScroll;
 }
+const subPop=$("sub-popover"),subPopList=$("sub-popover-list"),subPopClose=$("sub-popover-close"),subPopTitle=$("sub-popover-title");
+function closeSubPop(){subPop.hidden=true;subPop.classList.remove('fs-mode');}
+function subCap(i){return ['Tek vuruş','Sekizlik','Nota + es','Es + nota','Triol','','','','','','Altılama','','','','',''][i]||'';}
+function openSubPop(beat,anchor){
+  syncSubPopHost();
+  const ma=measureAt(beat);
+  subPopTitle.textContent=`${ma.index+1}. ölçü · ${ma.local+1}. vuruş — kalıp seç`;
+  subPopList.innerHTML="";
+  subDefs.forEach(([t],i)=>{
+    const b=document.createElement("button");
+    b.className="sub-popover-item"+(pulseSub[beat]===i?" on":"");
+    b.setAttribute('aria-pressed',pulseSub[beat]===i);
+    b.innerHTML=`${noteSVG(NOT[i],null,.62)}<span class="sp-name">${t}</span><span class="sp-tag">${subCap(i)}</span>`;
+    b.addEventListener('click',e=>{
+      const all=e.ctrlKey||e.metaKey;
+      if(all){pulseSub.fill(i);}else{pulseSub[beat]=i;}
+      curS=0;closeSubPop();drawSubs();drawPulses();preview(i);
+    });
+    subPopList.appendChild(b);
+  });
+  subPop.hidden=false;
+  const r=anchor.getBoundingClientRect();
+  const pw=subPop.offsetWidth||280,ph=subPop.offsetHeight||340;
+  let x=r.left+r.width/2-pw/2,y=r.bottom+8;
+  if(y+ph>window.innerHeight-8)y=Math.max(8,r.top-ph-8);
+  x=Math.max(8,Math.min(x,window.innerWidth-pw-8));
+  subPop.style.left=x+"px";subPop.style.top=y+"px";
+}
+function fillSubPopList(beat){
+  syncSubPopHost();
+  subPopTitle.textContent=`${measureAt(beat).index+1}. ölçü · ${measureAt(beat).local+1}. vuruş — kalıp seç`;
+  subPopList.innerHTML="";
+  subDefs.forEach(([t],i)=>{
+    const b=document.createElement("button");
+    b.className="sub-popover-item"+(pulseSub[beat]===i?" on":"");
+    b.setAttribute('aria-pressed',pulseSub[beat]===i);
+    b.innerHTML=`${noteSVG(NOT[i],null,.62)}<span class="sp-name">${t}</span><span class="sp-tag">${subCap(i)}</span>`;
+    b.addEventListener('click',e=>{
+      const all=e.ctrlKey||e.metaKey;
+      if(all){pulseSub.fill(i);}else{pulseSub[beat]=i;}
+      curS=0;closeSubPop();drawSubs();drawPulses();preview(i);
+    });
+    subPopList.appendChild(b);
+  });
+}
+$("pulses").closest(".pwrap").addEventListener("click",e=>{
+  if(e.button!==0||noClick||drag||!subPop.hidden||!$('quick-overlay').hidden)return;
+  if(!e.target.closest('#pulses'))return;
+  if(e.target.closest('button,input,select,textarea,label,a,.nv,.nt,.measure-tab,#sub-popover,#quick-overlay'))return;
+  e.stopPropagation();toggle();
+});
+$("pulses").addEventListener("click",e=>{
+  const nt=e.target.closest(".nt")||e.target.closest(".nv");
+  if(!nt||noClick||drag)return;
+  const nv=nt.classList.contains("nv")?nt:nt.closest(".nv");if(!nv)return;
+  const beat=Number(nv.id.slice(2));
+  const isMobile=window.matchMedia('(pointer:coarse)').matches||window.innerWidth<580;
+  if(fsMode||winMode){fillSubPopList(beat);subPop.classList.add('fs-mode');subPop.hidden=false;return;}
+  if(isMobile){
+    enterWin();
+    setTimeout(()=>{fillSubPopList(beat);subPop.classList.add('fs-mode');subPop.hidden=false;},60);
+    return;
+  }
+  if(e.ctrlKey||e.metaKey){
+    const i=(pulseSub[beat]+1)%subDefs.length;
+    pulseSub[beat]=i;curS=0;drawSubs();drawPulses();preview(i);
+    return;
+  }
+  openSubPop(beat,nt);
+});
+subPopClose.addEventListener('click',closeSubPop);
+subPop.addEventListener('pointerdown',e=>e.stopPropagation());
+document.addEventListener('pointerdown',e=>{
+  if(!subPop.hidden&&!e.target.closest('#sub-popover'))closeSubPop();
+},true);
 const NOT=[
 {it:[["4",0]]},
 {it:[["8",0]]},
@@ -778,8 +976,55 @@ function syncTempoPresets(){
     button.classList.toggle('on',active);button.setAttribute('aria-pressed',active);
   });
 }
-function setBpm(v){bpm=Math.max(30,Math.min(300,Math.round(v)));$("bpm").value=bpm;$("bpmv").textContent=bpm;
+function setBpm(v){bpm=Math.max(30,Math.min(300,Math.round(v)));$("bpm").value=bpm;$("bpmv").textContent=bpm;$("beat-tempo-value").textContent=bpm;if(!$("quick-overlay").hidden)$("quick-bpm").value=bpm;
   let n="Largo";names.forEach(([b,t])=>{if(bpm>=b)n=t;});$("bpmn").textContent=n;$("bpm").style.setProperty("--progress",((bpm-30)/270*100)+"%");syncTempoPresets();updateSummary();}
+let quickOpener=null,quickMeasureIndex=0;
+function closeQuickPicker(){
+  $('quick-overlay').hidden=true;
+  if(quickOpener?.isConnected)quickOpener.focus({preventScroll:true});
+}
+function showQuickPicker(title,tempo){
+  closeSubPop();syncSubPopHost();quickOpener=document.activeElement;
+  $('quick-title').textContent=title;$('quick-choices').innerHTML='';
+  $('quick-tempo-custom').hidden=!tempo;$('quick-tempo-actions').hidden=!tempo;$('quick-meter-custom').hidden=tempo;
+  $('quick-overlay').hidden=false;
+}
+function quickChoice(text,active,apply){
+  const b=document.createElement('button');b.className='chip'+(active?' on':'');b.textContent=text;
+  b.setAttribute('aria-pressed',active);b.onclick=()=>{apply();closeQuickPicker();};
+  $('quick-choices').appendChild(b);
+}
+function openTempoPicker(){
+  showQuickPicker('Tempo seç',true);
+  tempoChoices.forEach(value=>quickChoice(value,value===bpm,()=>setBpm(value)));
+  $('quick-bpm').value=bpm;$('quick-choices').firstElementChild?.focus();
+}
+function openMeterPicker(index){
+  quickMeasureIndex=index;showQuickPicker(`${index+1}. ölçüyü değiştir`,false);
+  const m=measures[index];
+  sigDefs.forEach(([n,d])=>quickChoice(`${n}/${d}`,m.num===n&&m.den===d,()=>{selectMeasure(quickMeasureIndex);setMeter(n,d);}));
+  $('quick-num').value=m.num;$('quick-den').value=m.den;$('quick-choices').firstElementChild?.focus();
+}
+for(let n=1;n<=16;n++){const o=document.createElement('option');o.value=n;o.textContent=n;$('quick-num').appendChild(o);}
+$('beat-tempo-minus').onclick=()=>setBpm(bpm-5);
+$('beat-tempo-plus').onclick=()=>setBpm(bpm+5);
+$('beat-tempo-value').onclick=openTempoPicker;
+$('quick-bpm-apply').onclick=()=>{const value=+$('quick-bpm').value;if(!Number.isFinite(value)||value<30||value>300){$('quick-bpm').reportValidity();return;}setBpm(value);closeQuickPicker();};
+$('quick-bpm').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('quick-bpm-apply').click();}});
+$('quick-meter-apply').onclick=()=>{selectMeasure(quickMeasureIndex);setMeter(+$('quick-num').value,+$('quick-den').value);closeQuickPicker();};
+$('quick-minus-one').onclick=()=>setBpm(bpm-1);
+$('quick-plus-one').onclick=()=>setBpm(bpm+1);
+$('quick-tap').onclick=()=>{$('tap').onclick();};
+$('quick-close').onclick=closeQuickPicker;
+$('quick-overlay').addEventListener('click',e=>{if(e.target===$('quick-overlay'))closeQuickPicker();});
+$('quick-overlay').addEventListener('keydown',e=>{
+  if(e.key==='Tab'){
+    const focusable=[...$('quick-overlay').querySelectorAll('button,input,select')].filter(el=>!el.closest('[hidden]'));
+    const first=focusable[0],last=focusable[focusable.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
+});
 $("bpm").oninput=e=>setBpm(+e.target.value);
 $("m1").onclick=()=>setBpm(bpm-1);$("p1").onclick=()=>setBpm(bpm+1);
 $("m5").onclick=()=>setBpm(bpm-5);$("p5").onclick=()=>setBpm(bpm+5);
@@ -872,21 +1117,14 @@ function toggle(forceDemo){
   setDemoGlow();
   $("play").textContent=playing?"■ Durdur":"▶ Başlat";$("play").classList.toggle("run",playing);$("play").setAttribute('aria-pressed',playing);document.body.classList.toggle('running',playing);$('status-text').textContent=playing?(demoPhase?'Demo: 1. ölçü':'Ritim akıyor'):'Çalmaya hazır';
 }
-$("play").onclick=()=>toggle();
-// Empty-area clicks toggle playback; control interactions and drag gestures do not.
-const clickControlSelector='button,input,select,textarea,label,a,[role="button"],[contenteditable]:not([contenteditable="false"]),#delete-overlay,#json-overlay,#help-overlay';
-let pointerStartedOnControl=false;
-document.addEventListener('pointerdown',e=>{
-  pointerStartedOnControl=!!e.target.closest(clickControlSelector);
+// Normal görünümde çalarken ilk tıklama, hedefinden bağımsız olarak durdurur.
+document.addEventListener("click",e=>{
+  if(!playing||fsMode||winMode||e.button!==0)return;
+  e.preventDefault();e.stopImmediatePropagation();toggle();
 },true);
-document.addEventListener('click',e=>{
-  if(e.defaultPrevented||e.button!==0||noClick||drag||!$('delete-overlay').hidden||!$('json-overlay').hidden||!$('help-overlay').hidden)return;
-  if(e.target.closest(clickControlSelector)||(e.detail>0&&pointerStartedOnControl))return;
-  if(window.getSelection()?.toString())return;
-  toggle();
-});
+$("play").onclick=()=>toggle();
 document.addEventListener("keydown",e=>{
-  if(!$("delete-overlay").hidden||!$("json-overlay").hidden)return;
+  if(!$("delete-overlay").hidden||!$("json-overlay").hidden||!$("quick-overlay").hidden)return;
   if(!$("help-overlay").hidden){if(e.key==="Escape")closeHelp();return;}
   if(["INPUT","SELECT"].includes(e.target.tagName))return;
   if(e.code==="Space"&&e.target.tagName==="BUTTON")e.target.blur();
@@ -1024,7 +1262,7 @@ $('reset-rhythm').onclick=()=>{
   pendingDelete=null;pendingMeasureDelete=null;pendingReset=true;deleteOpener=$('reset-rhythm');
   $('delete-title').textContent='Tüm ritimler sıfırlansın mı?';
   $('delete-message').textContent='Tüm kayıtlı ritimler ve mevcut ölçüler silinecek. Yerine 60 BPM, tek 4/4 ölçü ve dörtlük vuruşlardan oluşan temiz bir ritim uygulanacak. Devam etmek istiyor musun?';
-  $('delete-overlay').hidden=false;document.querySelector('.app').inert=true;$('delete-cancel').focus();
+  $('delete-overlay').hidden=false;document.querySelector('.app').inert=!(fsMode||winMode);$('delete-cancel').focus();
 };
 function resetRhythm(){
   if(!putPresets([])){closeDeleteDialog();flashMsg('Kayıtlar temizlenemedi. Sıfırlama yapılmadı.');return;}
@@ -1040,7 +1278,7 @@ function openMeasureDeleteDialog(index,opener){
   pendingReset=false;pendingDelete=null;pendingMeasureDelete=measures[index];deleteOpener=opener;
   $('delete-title').textContent='Ölçü silinsin mi?';
   $('delete-message').textContent=`${index+1}. ölçü (${measures[index].num}/${measures[index].den}) ve içindeki vuruşlar silinecek. Devam etmek istiyor musun?`;
-  $('delete-overlay').hidden=false;document.querySelector('.app').inert=true;$('delete-cancel').focus();
+  $('delete-overlay').hidden=false;document.querySelector('.app').inert=!(fsMode||winMode);$('delete-cancel').focus();
 }
 function confirmMeasureDelete(){
   const index=measures.indexOf(pendingMeasureDelete);
@@ -1059,7 +1297,7 @@ function openDeleteDialog(p,opener){
   pendingDelete=JSON.stringify(p);deleteOpener=opener;
   $('delete-message').textContent=`“${p.name}” adlı kayıtlı ritim silinecek. Devam etmek istiyor musun?`;
   $('delete-overlay').hidden=false;
-  document.querySelector('.app').inert=true;
+  document.querySelector('.app').inert=!(fsMode||winMode);
   $('delete-cancel').focus();
 }
 function closeDeleteDialog(restoreFocus=true){
