@@ -297,13 +297,15 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .pwrap.win .pulses{position:absolute;top:132px;bottom:0;left:0;right:0;width:100%;height:auto;min-height:0;max-height:none;margin:0;padding:12px 16px 24px;overflow-x:auto;overflow-y:auto;justify-content:safe center;align-items:safe center;overscroll-behavior:contain;scrollbar-width:thin}
 .pwrap.win .pulses .frow{flex:none;max-width:none}
 @media(max-width:580px){.pwrap.win .pulses{top:126px;padding:12px 8px 24px}}
+.measure-tab>.chip{flex-direction:row;align-items:center;gap:5px}
+.measure-tour-count{font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
 
 <div class="app">
  <header class="topbar">
-  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v3.1<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
+  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v3.2<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
   <div class="top-actions"><div class="theme-switch" role="group" aria-label="Görünüm"><button id="theme-light" aria-label="Gündüz teması" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>Gündüz</button><button id="theme-dark" aria-label="Gece teması" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20.8 14A9 9 0 0 1 10 3.2 9 9 0 1 0 20.8 14Z"/></svg>Gece</button></div><button id="help-open" class="help-btn" aria-label="Nasıl kullanılır? Yardımı aç" title="Nasıl kullanılır?">?</button></div>
  </header>
  <section class="pwrap" aria-labelledby="beats-title">
@@ -358,7 +360,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
     veya başka bir cihaza taşıyabilirsiniz.
   </p>
 </section>
-  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v3.1</span></footer>
+  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v3.2</span></footer>
 </div>
 
 <div class="help-overlay" id="help-overlay" hidden>
@@ -557,6 +559,24 @@ function measureAt(beat){
   }
   return {index:0,local:0};
 }
+let measureCounts=new Map(),countRun=0;
+function drawMeasureCounts(){
+  measures.forEach((measure,index)=>{
+    const button=$('measure-tabs').querySelector(`.measure-tab[data-index="${index}"] > .chip`);
+    if(!button)return;
+    const count=measureCounts.get(measure)||0;
+    button.querySelector('.measure-tour-count').textContent=`[${count}]`;
+    button.setAttribute('aria-label',`${index+1}. ölçü, ${measure.num}/${measure.den}, ${count} tam tur. Düzenlemek için tıkla.`);
+  });
+  requestAnimationFrame(updateMeasureScroll);
+}
+function countCompletedMeasure(measure,time){
+  const run=countRun;
+  setTimeout(()=>{
+    if(!playing||run!==countRun||!measures.includes(measure))return;
+    measureCounts.set(measure,(measureCounts.get(measure)||0)+1);drawMeasureCounts();
+  },Math.max(0,(time-ctx.currentTime)*1000));
+}
 let measureDrag=null,suppressMeasureClickUntil=0;
 function reorderMeasure(from,insertion){
   if(from<0||from>=measures.length)return;
@@ -639,7 +659,8 @@ function drawMeasureTabs(){
   measures.forEach((m,index)=>{
     const button=document.createElement('button');
     button.className='chip'+(!addingMeasure&&activeMeasure===index?' on':'');
-    button.textContent=`${index+1}. ${m.num}/${m.den}`;
+    button.append(document.createTextNode(`${index+1}. ${m.num}/${m.den} `));
+    const count=document.createElement('strong');count.className='measure-tour-count';count.textContent='[0]';button.appendChild(count);
     button.setAttribute('aria-pressed',!addingMeasure&&activeMeasure===index);
     button.title='Sürükleyerek sırala · Tıklayarak düzenle';
     button.addEventListener('pointerdown',e=>beginMeasureDrag(e,index,button));
@@ -662,7 +683,7 @@ function drawMeasureTabs(){
   $('new-measure').setAttribute('aria-pressed',addingMeasure);
   $('add-custom-measure').hidden=!addingMeasure;
   $('measure-help').textContent=addingMeasure?'Eklenecek ölçüyü seç. Mevcut ritmin sonuna eklenecek.':`${activeMeasure+1}. ölçüyü düzenliyorsun. Yeni ölçü eklemek için “Yeni Ölçü”ye bas.`;
-  requestAnimationFrame(updateMeasureScroll);
+  requestAnimationFrame(updateMeasureScroll);drawMeasureCounts();
 }
 function duplicateMeasure(index){
   if(!measures[index])return;
@@ -1146,7 +1167,11 @@ function sched(){
     if(curS===pat.indexOf(1))flash(curP,nextT);
     if(curS>0&&pat[curS]){if(!pat[0]&&curS===pat.indexOf(1)){if(lvl>0)click(nextT,lvl,false);}else if(lvl>0){if(sameSubSound)click(nextT,lvl,false);else click(nextT,0,true);}}
     nextT+=(60/bpm)/pat.length;
-    if(++curS>=pat.length){curS=0;curP++;}
+    if(++curS>=pat.length){
+      const completed=measureAt(curP);
+      if(completed.local===measures[completed.index].num-1)countCompletedMeasure(measures[completed.index],nextT);
+      curS=0;curP++;
+    }
     if(demoPhase&&curS===0&&curP>=Math.min(measures[0].num,levels.length)){
       demoPhase=false;curP=0;setDemoGlow();
       setTimeout(()=>{if(playing)$('status-text').textContent='Ritim akıyor';},Math.max(0,(nextT-ctx.currentTime)*1000));
@@ -1162,8 +1187,8 @@ function toggle(forceDemo){
     if(!demoFirst){demoFirst=true;$("demo-first").checked=true;save();drawMeasureTabs();drawPulses();}
     if(playing){playing=false;stopPlayback();}
   }
-  playing=!playing;
-  if(playing){curP=0;curS=0;demoPhase=demoActive();nextT=ctx.currentTime+0.06;sched();timer=setInterval(sched,25);}
+  playing=!playing;countRun++;
+  if(playing){measureCounts.clear();drawMeasureCounts();curP=0;curS=0;demoPhase=demoActive();nextT=ctx.currentTime+0.06;sched();timer=setInterval(sched,25);}
   else stopPlayback();
   setDemoGlow();
   $("play").textContent=playing?"■ Durdur":"▶ Başlat";$("play").classList.toggle("run",playing);$("play").setAttribute('aria-pressed',playing);document.body.classList.toggle('running',playing);$('status-text').textContent=playing?(demoPhase?'Demo: 1. ölçü':'Ritim akıyor'):'Çalmaya hazır';
