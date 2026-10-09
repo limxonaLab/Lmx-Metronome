@@ -277,19 +277,38 @@ body.help-open{overflow:hidden}
 /* Çift tıklama metin seçimini önle; düzenlenebilir alanlar seçilebilir kalsın. */
 body{-webkit-user-select:none;user-select:none}
 input,textarea{-webkit-user-select:text;user-select:text}
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.beat-head{justify-content:space-between}
+.beat-head>.beat-tempo{position:static;transform:none;margin:0;flex:none}
+.beat-head>.beat-tempo button{background:var(--button);border-radius:9px;height:34px}
+.beat-head .beat-head-actions{margin-left:auto}
+.beat-meter-bar{position:relative}
+.beat-meter-bar>.measure-tabs{width:100%;max-width:none;touch-action:pan-x;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.measure-tab{flex:none}.measure-tab>.chip{touch-action:pan-x;white-space:nowrap}
+.measure-scroll-track[hidden]{display:none}
+.measure-scroll-track{position:absolute;bottom:3px;height:4px;border-radius:9px;background:var(--line);pointer-events:none;overflow:hidden}
+.measure-scroll-thumb{height:100%;border-radius:9px;background:var(--acc);min-width:20px}
+.pwrap.win>.beat-head{position:absolute;top:10px;left:16px;right:16px;z-index:3;justify-content:flex-start;gap:8px}
+.pwrap.win>.beat-head>.fs-close{position:static;flex:none;margin-left:auto;opacity:1;background:var(--card)}
+.pwrap.win>.beat-head>.beat-tempo{position:static;transform:none;margin:0}
+.pwrap.win>.beat-head .beat-head-actions{display:none}
+.pwrap.win>.beat-meter-bar>.measure-tabs{width:100%;max-width:none}
+@media(max-width:580px){.beat-head{gap:5px}.beat-head>.beat-tempo{gap:3px}.beat-head>.beat-tempo button{padding:5px 8px;min-width:0}.beat-head #beat-tempo-value{min-width:48px}.beat-head .status{display:none}.beat-meter-bar{padding-bottom:12px}.pwrap.win>.beat-head{left:8px;right:8px}}
+.pwrap.win .pulses{position:absolute;top:132px;bottom:0;left:0;right:0;width:100%;height:auto;min-height:0;max-height:none;margin:0;padding:12px 16px 24px;overflow-x:auto;overflow-y:auto;justify-content:safe center;align-items:safe center;overscroll-behavior:contain;scrollbar-width:thin}
+.pwrap.win .pulses .frow{flex:none;max-width:none}
+@media(max-width:580px){.pwrap.win .pulses{top:126px;padding:12px 8px 24px}}
 </style>
 </head>
 <body>
 
 <div class="app">
  <header class="topbar">
-  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v3.0<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
+  <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8l6 23H6L12 5Z"/><path d="m16 23 7-17M11 24h10M15 10h3"/><circle cx="20.5" cy="11.5" r="2" fill="currentColor" stroke="none"/></svg></div><div><h1>Lmx Metronom v3.1<span style="color:var(--acc)">.</span></h1><div class="tagline">Kendi ritmini bul.</div></div></div>
   <div class="top-actions"><div class="theme-switch" role="group" aria-label="Görünüm"><button id="theme-light" aria-label="Gündüz teması" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>Gündüz</button><button id="theme-dark" aria-label="Gece teması" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20.8 14A9 9 0 0 1 10 3.2 9 9 0 1 0 20.8 14Z"/></svg>Gece</button></div><button id="help-open" class="help-btn" aria-label="Nasıl kullanılır? Yardımı aç" title="Nasıl kullanılır?">?</button></div>
  </header>
  <section class="pwrap" aria-labelledby="beats-title">
-  <div class="section-head beat-head"><h2 class="section-title" id="beats-title">Vuruş alanı</h2><div class="beat-head-actions"><div class="beat-toolbar"><div class="beat-view-actions"><button id="win-open" aria-label="Vuruş alanını tam ekran göster">⛶ Tam ekran</button></div></div><div class="status" role="status"><span class="status-dot"></span><span id="status-text">Çalmaya hazır</span></div></div></div>
-  <button class="fs-close" id="fs-close" aria-label="Tam ekrandan çık">✕</button>
-  <div class="beat-meter-bar"><div class="measure-tabs" id="measure-tabs" role="group" aria-label="Ritimdeki ölçüler"></div><div class="beat-tempo" role="group" aria-label="Vuruş alanı temposu"><button id="beat-tempo-minus" aria-label="Tempoyu 5 azalt">−</button><button id="beat-tempo-value" aria-label="Tempo seç">100</button><button id="beat-tempo-plus" aria-label="Tempoyu 5 artır">+</button></div></div>
+  <div class="section-head beat-head"><h2 class="section-title visually-hidden" id="beats-title">Vuruş alanı</h2><div class="beat-tempo" role="group" aria-label="Vuruş alanı temposu"><button id="beat-tempo-minus" aria-label="Tempoyu 5 azalt">−</button><button id="beat-tempo-value" aria-label="Tempo seç">100</button><button id="beat-tempo-plus" aria-label="Tempoyu 5 artır">+</button></div><button class="fs-close" id="fs-close" aria-label="Tam ekrandan çık">✕</button><div class="beat-head-actions"><div class="beat-toolbar"><div class="beat-view-actions"><button id="win-open" aria-label="Vuruş alanını tam ekran göster">⛶ Tam ekran</button></div></div><div class="status" role="status"><span class="status-dot"></span><span id="status-text">Çalmaya hazır</span></div></div></div>
+  <div class="beat-meter-bar"><div class="measure-tabs" id="measure-tabs" role="group" aria-label="Ritimdeki ölçüler"></div><div class="measure-scroll-track" id="measure-scroll-track" hidden><div class="measure-scroll-thumb" id="measure-scroll-thumb"></div></div></div>
   <div class="pulses" id="pulses"></div>
 
   <div class="legend"><span><i class="strong"></i>Güçlü</span><span><i class="medium"></i>Orta</span><span><i class="weak"></i>Zayıf</span><span><i class="silent"></i>Sessiz</span></div>
@@ -339,7 +358,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
     veya başka bir cihaza taşıyabilirsiniz.
   </p>
 </section>
-  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v3.0</span></footer>
+  <footer class="footer"><div class="shortcuts"><span><kbd>Boşluk</kbd> veya boş alana tıkla: başlat / durdur</span><span><kbd>Ctrl</kbd> + <kbd>Boşluk</kbd>: demo başlat</span><span><kbd>↑ ↓</kbd> Tempo</span><span><kbd>Ctrl + tık</kbd> Tek vuruşu sustur</span></div><span class="footer-note">Pratik için tasarlandı. v3.1</span></footer>
 </div>
 
 <div class="help-overlay" id="help-overlay" hidden>
@@ -558,17 +577,28 @@ function reorderMeasure(from,insertion){
 function clearMeasureMarkers(){
   document.querySelectorAll('.measure-tab').forEach(tab=>tab.classList.remove('drop-before','drop-after','moving'));
 }
+function activateMeasureDrag(state){
+  if(measureDrag!==state||state.on)return;
+  state.on=true;state.button.setPointerCapture(state.id);
+  state.button.closest('.measure-tab').classList.add('moving');
+  document.body.classList.add('measure-reordering');
+}
 function beginMeasureDrag(e,index,button){
   if(e.button!==0||measureDrag||measures.length<2)return;
-  measureDrag={index,button,id:e.pointerId,x:e.clientX,y:e.clientY,on:false,insertion:null};
-  button.setPointerCapture(e.pointerId);
+  const state={index,button,id:e.pointerId,x:e.clientX,y:e.clientY,on:false,insertion:null,touch:e.pointerType!=='mouse',timer:null};
+  measureDrag=state;
+  if(state.touch)state.timer=setTimeout(()=>activateMeasureDrag(state),350);
+  else button.setPointerCapture(e.pointerId);
 }
 function moveMeasureDrag(e){
   const state=measureDrag;if(!state||e.pointerId!==state.id)return;
-  if(!state.on&&Math.hypot(e.clientX-state.x,e.clientY-state.y)<7)return;
-  state.on=true;e.preventDefault();clearMeasureMarkers();
-  state.button.closest('.measure-tab').classList.add('moving');
-  document.body.classList.add('measure-reordering');
+  const distance=Math.hypot(e.clientX-state.x,e.clientY-state.y);
+  if(!state.on){
+    if(state.touch){if(distance>8){clearTimeout(state.timer);measureDrag=null;}return;}
+    if(distance<7)return;
+    activateMeasureDrag(state);
+  }
+  e.preventDefault();clearMeasureMarkers();
   const tab=document.elementFromPoint(e.clientX,e.clientY)?.closest('.measure-tab');
   if(!tab){state.insertion=null;return;}
   const index=Number(tab.dataset.index),rect=tab.getBoundingClientRect();
@@ -577,7 +607,7 @@ function moveMeasureDrag(e){
 }
 function endMeasureDrag(e,cancel=false){
   const state=measureDrag;if(!state||e.pointerId!==state.id)return;
-  measureDrag=null;
+  clearTimeout(state.timer);measureDrag=null;
   if(state.button.hasPointerCapture(e.pointerId))state.button.releasePointerCapture(e.pointerId);
   clearMeasureMarkers();document.body.classList.remove('measure-reordering');
   if(state.on){
@@ -585,18 +615,31 @@ function endMeasureDrag(e,cancel=false){
     if(!cancel&&state.insertion!==null)reorderMeasure(state.index,state.insertion);
   }
 }
+document.addEventListener('touchmove',e=>{if(measureDrag?.on&&measureDrag.touch)e.preventDefault();},{passive:false});
 document.addEventListener('pointermove',moveMeasureDrag,{passive:false});
 document.addEventListener('pointerup',e=>endMeasureDrag(e));
 document.addEventListener('pointercancel',e=>endMeasureDrag(e,true));
 document.addEventListener('click',e=>{
   if(performance.now()<suppressMeasureClickUntil){e.preventDefault();e.stopImmediatePropagation();}
 },true);
+function updateMeasureScroll(){
+  const box=$('measure-tabs'),track=$('measure-scroll-track'),thumb=$('measure-scroll-thumb');
+  const overflow=box.scrollWidth-box.clientWidth;
+  track.hidden=overflow<2||window.innerWidth>580;
+  if(track.hidden)return;
+  const bar=box.getBoundingClientRect(),parent=track.parentElement.getBoundingClientRect();
+  track.style.left=(bar.left-parent.left)+'px';track.style.width=bar.width+'px';
+  const width=Math.max(20,bar.width*box.clientWidth/box.scrollWidth);
+  thumb.style.width=width+'px';thumb.style.transform=`translateX(${box.scrollLeft/overflow*(bar.width-width)}px)`;
+}
+$('measure-tabs').addEventListener('scroll',updateMeasureScroll,{passive:true});
+window.addEventListener('resize',updateMeasureScroll);
 function drawMeasureTabs(){
   const box=$('measure-tabs');box.innerHTML='';
   measures.forEach((m,index)=>{
     const button=document.createElement('button');
     button.className='chip'+(!addingMeasure&&activeMeasure===index?' on':'');
-    button.textContent=`${index+1}. ölçü · ${m.num}/${m.den}`;
+    button.textContent=`${index+1}. ${m.num}/${m.den}`;
     button.setAttribute('aria-pressed',!addingMeasure&&activeMeasure===index);
     button.title='Sürükleyerek sırala · Tıklayarak düzenle';
     button.addEventListener('pointerdown',e=>beginMeasureDrag(e,index,button));
@@ -619,6 +662,7 @@ function drawMeasureTabs(){
   $('new-measure').setAttribute('aria-pressed',addingMeasure);
   $('add-custom-measure').hidden=!addingMeasure;
   $('measure-help').textContent=addingMeasure?'Eklenecek ölçüyü seç. Mevcut ritmin sonuna eklenecek.':`${activeMeasure+1}. ölçüyü düzenliyorsun. Yeni ölçü eklemek için “Yeni Ölçü”ye bas.`;
+  requestAnimationFrame(updateMeasureScroll);
 }
 function duplicateMeasure(index){
   if(!measures[index])return;
@@ -720,13 +764,13 @@ function enterWin(){
   winMode=true;fsMode=false;
   const w=$("pulses").closest(".pwrap");w.classList.add("win");document.body.classList.add("win-open");
   syncSubPopHost();
-  drawPulses();
+  drawPulses();requestAnimationFrame(updateMeasureScroll);
 }
 function exitWin(){
   if(!winMode)return;winMode=false;
   $("pulses").closest(".pwrap").classList.remove("win");document.body.classList.remove("win-open");
   syncSubPopHost();
-  drawPulses();
+  drawPulses();requestAnimationFrame(updateMeasureScroll);
 }
 document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&fsMode)exitFs();});
 document.addEventListener("keydown",e=>{
@@ -1058,13 +1102,16 @@ function followBeat(i,returnToStart=false){
   const strip=$('pulses'),beat=$('pl'+i);
   if(!beat)return;
   const max=Math.max(0,strip.scrollWidth-strip.clientWidth);
-  if(!max)return;
+  const maxY=winMode?Math.max(0,strip.scrollHeight-strip.clientHeight):0;
+  if(!max&&!maxY)return;
   const box=strip.getBoundingClientRect(),rect=beat.getBoundingClientRect();
   const center=rect.left+rect.width/2-box.left-strip.clientLeft+strip.scrollLeft;
   const target=returnToStart?0:Math.max(0,Math.min(max,center-strip.clientWidth/2));
-  const from=strip.scrollLeft,distance=target-from;
-  if(Math.abs(distance)<0.5)return;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){strip.scrollLeft=target;return;}
+  const centerY=rect.top+rect.height/2-box.top-strip.clientTop+strip.scrollTop;
+  const targetY=returnToStart?0:Math.max(0,Math.min(maxY,centerY-strip.clientHeight/2));
+  const from=strip.scrollLeft,distance=target-from,fromY=strip.scrollTop,distanceY=targetY-fromY;
+  if(Math.abs(distance)<0.5&&Math.abs(distanceY)<0.5)return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){strip.scrollLeft=target;strip.scrollTop=targetY;return;}
   const duration=returnToStart?Math.min(180,60000/bpm*0.3):Math.max(100,Math.min(900,60000/bpm*0.95));
   const started=performance.now();
   function step(now){
@@ -1073,6 +1120,7 @@ function followBeat(i,returnToStart=false){
     // Gentle easing, with no jumps when a new beat interrupts this animation.
     const eased=progress*(2-progress);
     strip.scrollLeft=from+distance*eased;
+    if(maxY)strip.scrollTop=fromY+distanceY*eased;
     if(progress<1)followFrame=requestAnimationFrame(step);
     else followFrame=null;
   }
